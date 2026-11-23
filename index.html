@@ -44,7 +44,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:35px 15px}
   <select id="lang" class="btn secondary" aria-label="Language"><option value="ku">کوردی</option><option value="ar">العربية</option><option value="en">English</option><option value="fa">فارسی</option></select>
  </div>
  <nav>
-  <button class="active" data-tab="home">سەرەکی</button><button data-tab="videos">ڤیدیۆکان</button><button data-tab="photos">وێنەکان</button><button data-tab="people">بەکارهێنەران</button><button data-tab="upload">بارکردن (بەڕێوەبەر)</button>
+  <button class="active" data-tab="home">سەرەکی</button><button data-tab="videos">ڤیدیۆکان</button><button data-tab="photos">وێنەکان</button><button data-tab="people">بەکارهێنەران</button><button data-tab="profile">پڕۆفایلم</button><button data-tab="upload">بارکردن (بەڕێوەبەر)</button>
  </nav>
 </div></header>
 <main>
@@ -75,6 +75,25 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:35px 15px}
    <div class="profile"><div class="avatar">K</div><div><strong>@kurd_member</strong><span>پڕۆفایلی نموونە</span></div><button class="follow">Follow</button></div>
   </div>
  </section>
+ <section id="profileSection" hidden>
+  <div class="section-head"><h2>پڕۆفایلی من</h2><span class="muted">پێشبینینی ناوخۆیی</span></div>
+  <div class="panel">
+   <form id="profileForm">
+    <label class="muted" for="profileName">ناوی پیشاندان</label>
+    <input id="profileName" maxlength="40" required placeholder="ناوت بنووسە" style="display:block;width:100%;margin:7px 0 14px;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:white">
+    <label class="muted" for="profileUsername">ناوی بەکارهێنەر</label>
+    <input id="profileUsername" maxlength="24" placeholder="@username" style="display:block;width:100%;margin:7px 0 14px;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:white">
+    <label class="muted" for="profileBio">دەربارەی من</label>
+    <textarea id="profileBio" maxlength="240" rows="3" placeholder="چەند وشەیەک دەربارەی خۆت..." style="display:block;width:100%;margin:7px 0 14px;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:white;resize:vertical"></textarea>
+    <label class="muted" for="profileCountry">وڵات</label>
+    <input id="profileCountry" maxlength="40" placeholder="وڵات" style="display:block;width:100%;margin:7px 0 14px;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:white">
+    <button class="btn" type="submit">پاراستنی زانیارییەکان</button>
+   </form>
+   <div id="profileStatus" class="notice" aria-live="polite">زانیارییەکانت تەنها لەم وێبگەڕەدا پاشەکەوت دەکرێن.</div>
+   <div id="myProfileCard" class="profile" style="margin-top:14px"><div class="avatar">?</div><div><strong>پڕۆفایلی نوێ</strong><span>هێشتا زانیارییەک داخڵ نەکراوە</span></div></div>
+   <p class="notice">تێبینی: ئەمە هێشتا هەژماری ڕاستەقینە نییە؛ زانیارییەکان لەسەر ئامێری خۆت پاشەکەوت دەبن و لە سێرڤەر یان داتابەیسدا نین. وشەی نهێنی مەنووسە. بۆ هەژماری پارێزراو، پێویستە دواتر سیستەمی چوونەژوورەوە و داتابەیس پەیوەست بکەین.</p>
+  </div>
+ </section>
  <section id="uploadSection">
   <div class="section-head"><h2>بارکردنی ناوەڕۆک — بەڕێوەبەر</h2><span class="muted">تەنها بۆ پێشبینینی ناوخۆیی</span></div>
   <div class="panel">
@@ -95,6 +114,7 @@ document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()
  const tab=b.dataset.tab;
  document.getElementById('feedSection').hidden=!(tab==='home'||tab==='videos'||tab==='photos');
  document.getElementById('peopleSection').hidden=tab!=='people';
+ document.getElementById('profileSection').hidden=tab!=='profile';
  document.getElementById('uploadSection').hidden=tab!=='upload';
  document.getElementById('searchResults').hidden=true;
  if(tab==='videos'||tab==='photos'){document.querySelectorAll('#feed .card').forEach(c=>c.hidden=c.dataset.kind!==(tab==='videos'?'video':'photo'))}
@@ -113,6 +133,38 @@ function search(){
  document.querySelectorAll('.profile').forEach(p=>{if(!q||p.innerText.toLowerCase().includes(q)){let d=document.createElement('div');d.className='card card-body';d.textContent=p.innerText;results.appendChild(d);count++}});
  if(!count)results.innerHTML='<div class="empty">هیچ ئەنجامێک نەدۆزرایەوە.</div>';
 }
+const profileForm=document.getElementById('profileForm');
+function showSavedProfile(){
+ try{
+  const p=JSON.parse(localStorage.getItem('arab18_profile')||'null');
+  if(!p)return;
+  document.getElementById('profileName').value=p.name||'';
+  document.getElementById('profileUsername').value=p.username||'';
+  document.getElementById('profileBio').value=p.bio||'';
+  document.getElementById('profileCountry').value=p.country||'';
+  const card=document.getElementById('myProfileCard');
+  card.querySelector('.avatar').textContent=(p.name||'?').trim().charAt(0).toUpperCase();
+  card.querySelector('strong').textContent=p.name||'پڕۆفایل';
+  card.querySelector('span').textContent=(p.username||'')+(p.country?' • '+p.country:'');
+  document.getElementById('profileStatus').textContent='پڕۆفایلەکەت لەم ئامێرەدا پاشەکەوت کراوە.';
+ }catch(e){document.getElementById('profileStatus').textContent='نەتوانرا زانیارییە پاشەکەوتکراوەکان بخوێندرێنەوە.'}
+}
+profileForm.addEventListener('submit',e=>{
+ e.preventDefault();
+ const p={
+  name:document.getElementById('profileName').value.trim(),
+  username:document.getElementById('profileUsername').value.trim(),
+  bio:document.getElementById('profileBio').value.trim(),
+  country:document.getElementById('profileCountry').value.trim()
+ };
+ if(!p.name){document.getElementById('profileStatus').textContent='تکایە ناوی پیشاندان بنووسە.';return}
+ try{
+  localStorage.setItem('arab18_profile',JSON.stringify(p));
+  showSavedProfile();
+  document.getElementById('profileStatus').textContent='پڕۆفایلەکەت بە سەرکەوتوویی لەم ئامێرەدا پاشەکەوت کرا.';
+ }catch(e){document.getElementById('profileStatus').textContent='پاشەکەوتکردن سەرکەوتوو نەبوو.'}
+});
+showSavedProfile();
 document.getElementById('searchBtn').addEventListener('click',search);
 document.getElementById('searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
 document.getElementById('previewBtn').addEventListener('click',()=>{
