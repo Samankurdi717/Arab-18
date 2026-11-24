@@ -98,6 +98,35 @@ body{background:#eaf3ff!important;color:#1c1e21}
 .wl-auth-landing{background:transparent}
 
 .wl-phone-row{display:grid;grid-template-columns:minmax(116px,38%) 1fr;gap:8px;align-items:center}.wl-phone-row .wl-auth-input{min-width:0;width:100%;box-sizing:border-box}.wl-birth-row{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:8px}.wl-birth-row .wl-auth-input{min-width:0;width:100%;box-sizing:border-box;padding:13px 8px!important}
+
+/* Facebook-like WORLDLINK home header and feed top */
+.wl-header{background:#fff;border-bottom:1px solid #d8dce2;box-shadow:0 1px 2px #00000012}
+.wl-top{direction:ltr;max-width:1200px;min-height:68px;padding:8px 18px;gap:14px}
+.wl-menu{flex:0 0 42px;background:#f0f2f5;color:#111;font-size:25px}
+.wl-logo{font-size:clamp(22px,3vw,34px);color:#1877f2;letter-spacing:-1.5px;font-weight:900}
+.wl-logo span{color:#1877f2}
+.wl-search{order:3;max-width:360px;margin:0 auto 0 0;min-width:130px}
+.wl-create-top{order:2;font-size:29px;font-weight:500;background:#f0f2f5;color:#111}
+.wl-messenger{order:4;font-size:21px;background:#e4e6eb;color:#111}
+.wl-nav{direction:ltr;max-width:1050px;min-height:58px;align-items:stretch;gap:12px;padding:0 12px}
+.wl-nav button{font-size:30px;min-height:55px;color:#606770;border-bottom-width:3px}
+.wl-nav button.active{color:#1877f2;border-bottom-color:#1877f2}
+main{max-width:720px;margin:14px auto;padding:0 10px}
+.wl-composer,.wl-stories{border:0;border-radius:10px;background:#fff;padding:14px;margin-bottom:12px;box-shadow:0 1px 2px #00000014}
+.wl-composer-row{direction:rtl;gap:10px}
+.wl-avatar{flex:0 0 44px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1877f2,#20a4d8);font-size:21px}
+.wl-composer-prompt{background:#fff;border:1px solid #ccd0d5;text-align:right;color:#65676b;border-radius:25px;padding:12px 18px;min-height:48px}
+.wl-photo-shortcut{border:0;background:#fff;color:#606770;font-size:25px;padding:5px}
+.wl-composer-actions{direction:rtl}
+.wl-composer-actions button{font-size:14px;border-radius:8px}
+.wl-stories{padding:12px 10px}
+.wl-section-title{font-size:16px;margin-bottom:12px}
+.wl-story-row{direction:rtl;gap:10px}
+.wl-story{flex-basis:145px;height:205px;border-radius:13px}
+.wl-story-create{background:linear-gradient(180deg,#e9eff8,#f8f9fa)}
+.wl-story-create b{top:auto;bottom:43px;left:calc(50% - 19px);width:40px;height:40px}
+.wl-story-one{background:linear-gradient(160deg,#274c77,#0d1b2a)}.wl-story-two{background:linear-gradient(160deg,#5d4b8a,#172554)}.wl-story-three{background:linear-gradient(160deg,#1b998b,#17324d)}
+@media(max-width:520px){.wl-top{gap:7px;padding:7px 8px;min-height:58px}.wl-logo{font-size:22px}.wl-menu,.wl-circle{width:36px;height:36px;flex-basis:36px}.wl-search{max-width:none;min-width:0;padding:0 8px}.wl-search input{font-size:13px}.wl-nav{gap:5px;min-height:52px}.wl-nav button{font-size:26px;min-height:50px}.wl-story{flex-basis:126px;height:180px}main{margin:10px auto;padding:0 7px}}
 </style>
 </head>
 <body>
@@ -157,15 +186,14 @@ body{background:#eaf3ff!important;color:#1c1e21}
 <header class="wl-header"><div class="wl-top">
  <button class="wl-menu" id="authNavBtn" aria-label="هەژمار">☰</button>
  <div class="wl-logo">WORLD<span>LINK</span></div>
+ <button class="wl-circle wl-create-top" id="createPostTop" aria-label="پۆستی نوێ" title="پۆستی نوێ">＋</button>
  <div class="wl-search"><input id="searchInput" placeholder="گەڕان لە WORLDLINK..."><button id="searchBtn" aria-label="گەڕان">⌕</button></div>
- <button class="wl-circle" id="createPostTop" aria-label="پۆستی نوێ">＋</button>
- <button class="wl-circle" id="messageTop" aria-label="پەیام">☏</button>
+ <button class="wl-circle wl-messenger" id="messageTop" aria-label="پەیام" title="پەیام">➤</button>
 </div><nav class="wl-nav">
- <button class="active" data-tab="home" aria-label="سەرەکی">⌂</button><button data-tab="people" aria-label="هاوڕێیان">♧</button><button data-tab="profile" aria-label="پڕۆفایل">◉</button><button data-tab="upload" aria-label="بڵاوکردنەوە">＋</button><button data-tab="account" aria-label="هەژمار">☻</button>
+ <button class="active" data-tab="home" aria-label="سەرەکی" title="سەرەکی">⌂</button><button data-tab="upload" aria-label="ڤیدیۆ" title="ڤیدیۆ">▣</button><button data-tab="people" aria-label="هاوڕێیان" title="هاوڕێیان">♧</button><button data-tab="profile" aria-label="پڕۆفایل" title="پڕۆفایل">♙</button><button data-tab="account" aria-label="هەژمار" title="هەژمار">♧</button>
 </nav></header>
 <main>
- <section class="wl-welcome"><h1>بەخێربێیت بۆ WORLDLINK</h1><p>لەگەڵ هاوڕێکانت پەیوەندی بکە و بیرۆکە و وێنەکانت هاوبەش بکە.</p></section>
- <section class="wl-composer"><div class="wl-composer-row"><div class="wl-avatar">W</div><button id="composerOpen" class="wl-composer-prompt">چی لە مێشکتدایە؟</button></div><div class="wl-composer-actions"><button id="composerPhoto">▧ وێنە / ڤیدیۆ</button><button id="composerFeeling">☺ هەست و بیرۆکە</button></div></section>
+ <section class="wl-composer"><div class="wl-composer-row"><div class="wl-avatar">W</div><button id="composerOpen" class="wl-composer-prompt">چی لە مێشکتدایە؟</button><button class="wl-photo-shortcut" id="composerPhoto" aria-label="وێنە و ڤیدیۆ">▧</button></div><div class="wl-composer-actions"><button id="composerFeeling">☺ هەست و بیرۆکە</button><button id="composerPhotoBottom">▧ وێنە / ڤیدیۆ</button></div></section>
  <section class="wl-stories"><div class="wl-section-title">ستۆرییەکان <span>بینینی هەموو</span></div><div class="wl-story-row"><button class="wl-story wl-story-create" id="storyCreate"><b>＋</b><span>ستۆری دروست بکە</span></button><div class="wl-story wl-story-one"><span>W</span><b>هاوڕێکانت</b></div><div class="wl-story wl-story-two"><span>✦</span><b>WORLDLINK</b></div><div class="wl-story wl-story-three"><span>☺</span><b>کۆمەڵگا</b></div></div></section>
 
  <section id="feedSection"><div class="section-head"><h2>پۆستە نوێکان</h2><span class="muted">دوای چوونەژوورەوە دەردەکەون</span></div><div id="feed" class="grid"><div class="empty">بۆ بینینی پۆستەکان سەرەتا بچۆ ژوورەوە.</div></div></section>
