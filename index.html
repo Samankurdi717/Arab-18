@@ -317,7 +317,7 @@ function showTab(tab){
  $('searchSection').hidden=true;
  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
  if(tab==='people'&&currentUser)loadPeople();
- if(tab==='chat'&&currentUser)loadChatContacts();
+ if(tab==='chat'&&currentUser&&!activeChatUser)loadChatContacts();
  if(tab==='profile'&&currentUser)loadProfile();
 }
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
