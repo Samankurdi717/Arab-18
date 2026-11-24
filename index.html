@@ -135,9 +135,11 @@ body{background:#eaf3ff!important;color:#1c1e21}
     <div id="signupPanel" class="wl-auth-panel" hidden>
      <div class="wl-auth-heading">بەشداری بکە لە <span>WORLDLINK</span></div>
      <p class="wl-auth-subtitle">هەژماری خۆت دروست بکە</p>
-     <label class="muted" for="signupName">ناوی تەواو</label><input class="field wl-auth-input" id="signupName" maxlength="40" autocomplete="name" placeholder="ناوت بنووسە">
+     <label class="muted" for="signupFirstName">ناوی یەکەم</label><input class="field wl-auth-input" id="signupFirstName" maxlength="30" autocomplete="given-name" placeholder="ناوی یەکەمت بنووسە" required>
+     <label class="muted" for="signupLastName">ناوی کۆتا</label><input class="field wl-auth-input" id="signupLastName" maxlength="40" autocomplete="family-name" placeholder="ناوی کۆتات بنووسە" required>
+     <label class="muted" for="signupPhone">ژمارەی مۆبایل</label><input class="field wl-auth-input" id="signupPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+964 7XX XXX XXXX" required>
      <label class="muted" for="signupBirthDate">بەرواری لەدایکبوون (لانیکەم ١٣ ساڵ)</label><input class="field wl-auth-input" id="signupBirthDate" type="date" required>
-     <label class="muted" for="signupEmail">ئیمەیڵ</label><input class="field wl-auth-input" id="signupEmail" type="email" autocomplete="email" placeholder="name@example.com">
+     <label class="muted" for="signupEmail">ئیمەیڵ</label><input class="field wl-auth-input" id="signupEmail" type="email" autocomplete="email" placeholder="name@example.com" required>
      <label class="muted" for="signupPassword">وشەی نهێنی (لانیکەم ٨ پیت)</label><input class="field wl-auth-input" id="signupPassword" type="password" autocomplete="new-password" minlength="8" placeholder="وشەی نهێنی">
      <label class="muted" for="confirmPassword">دووبارە وشەی نهێنی</label><input class="field wl-auth-input" id="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="وشەی نهێنی دووبارە بنووسە">
      <button class="wl-create-btn wl-create-submit" id="signupBtn">دروستکردنی هەژمار</button>
@@ -221,10 +223,10 @@ function setAuthMode(mode){
 }
 
 const translations={
- ku:{login:'چوونەژوورەوە',signup:'خۆتۆمارکردن',welcome:'بەخێربێیت بۆ',loginHint:'بۆ بەردەوامبوون بچۆ ژوورەوە',email:'ئیمەیڵ',password:'وشەی نهێنی',forgot:'وشەی نهێنیم لەبیرچووە؟',create:'دروستکردنی هەژماری نوێ',join:'بەشداری بکە لە',signupHint:'هەژماری خۆت دروست بکە',name:'ناوی تەواو',birth:'بەرواری لەدایکبوون (لانیکەم ١٣ ساڵ)',confirm:'دووبارە وشەی نهێنی',hasAccount:'هەژمارت هەیە؟',goLogin:'بچۆ ژوورەوە',language:'زمان'},
- en:{login:'Log In',signup:'Sign Up',welcome:'Welcome to',loginHint:'Log in to continue',email:'Email address',password:'Password',forgot:'Forgot password?',create:'Create new account',join:'Join',signupHint:'Create your account',name:'Full name',birth:'Date of birth (13+)',confirm:'Confirm password',hasAccount:'Already have an account?',goLogin:'Log in',language:'Language'},
- ar:{login:'تسجيل الدخول',signup:'إنشاء حساب',welcome:'مرحباً بك في',loginHint:'سجّل الدخول للمتابعة',email:'البريد الإلكتروني',password:'كلمة المرور',forgot:'هل نسيت كلمة المرور؟',create:'إنشاء حساب جديد',join:'انضم إلى',signupHint:'أنشئ حسابك',name:'الاسم الكامل',birth:'تاريخ الميلاد (13 سنة فأكثر)',confirm:'تأكيد كلمة المرور',hasAccount:'لديك حساب بالفعل؟',goLogin:'تسجيل الدخول',language:'اللغة'}
-};
+ ku:{login:'چوونەژوورەوە',signup:'خۆتۆمارکردن',welcome:'بەخێربێیت بۆ',loginHint:'بۆ بەردەوامبوون بچۆ ژوورەوە',email:'ئیمەیڵ',password:'وشەی نهێنی',forgot:'وشەی نهێنیم لەبیرچووە؟',create:'دروستکردنی هەژماری نوێ',join:'بەشداری بکە لە',signupHint:'هەژماری خۆت دروست بکە',firstName:'ناوی یەکەم',lastName:'ناوی کۆتا',phone:'ژمارەی مۆبایل',birth:'بەرواری لەدایکبوون (لانیکەم ١٣ ساڵ)',confirm:'دووبارە وشەی نهێنی',hasAccount:'هەژمارت هەیە؟',goLogin:'بچۆ ژوورەوە',language:'زمان'},
+ en:{login:'Log In',signup:'Sign Up',welcome:'Welcome to',loginHint:'Log in to continue',email:'Email address',password:'Password',forgot:'Forgot password?',create:'Create new account',join:'Join',signupHint:'Create your account',firstName:'First name',lastName:'Last name',phone:'Mobile number',birth:'Date of birth (13+)',confirm:'Confirm password',hasAccount:'Already have an account?',goLogin:'Log in',language:'Language'},
+ ar:{login:'تسجيل الدخول',signup:'إنشاء حساب',welcome:'مرحباً بك في',loginHint:'سجّل الدخول للمتابعة',email:'البريد الإلكتروني',password:'كلمة المرور',forgot:'هل نسيت كلمة المرور؟',create:'إنشاء حساب جديد',join:'انضم إلى',signupHint:'أنشئ حسابك',firstName:'الاسم الأول',lastName:'اسم العائلة',phone:'رقم الهاتف المحمول',birth:'تاريخ الميلاد (13 سنة فأكثر)',confirm:'تأكيد كلمة المرور',hasAccount:'لديك حساب بالفعل؟',goLogin:'تسجيل الدخول',language:'اللغة'}
+}
 function applyLanguage(lang){
  const t=translations[lang]||translations.ku;document.documentElement.lang=lang;document.documentElement.dir=lang==='en'?'ltr':'rtl';
  $('languageLabel').textContent=t.language;
@@ -232,10 +234,12 @@ function applyLanguage(lang){
  $('loginEmail').previousElementSibling.textContent=t.email;$('loginPassword').previousElementSibling.textContent=t.password;
  $('loginEmail').placeholder=t.email;$('loginPassword').placeholder=t.password;
  $('loginBtn').textContent=t.login;$('forgotBtn').textContent=t.forgot;$('goSignup').textContent=t.create;
- $('signupName').previousElementSibling.textContent=t.name;$('signupBirthDate').previousElementSibling.textContent=t.birth;
+ $('signupFirstName').previousElementSibling.textContent=t.firstName;$('signupLastName').previousElementSibling.textContent=t.lastName;
+ $('signupPhone').previousElementSibling.textContent=t.phone;$('signupBirthDate').previousElementSibling.textContent=t.birth;
  $('signupEmail').previousElementSibling.textContent=t.email;$('signupPassword').previousElementSibling.textContent=t.password;
  $('confirmPassword').previousElementSibling.textContent=t.confirm;
- $('signupName').placeholder=t.name;$('signupEmail').placeholder=t.email;$('signupPassword').placeholder=t.password;$('confirmPassword').placeholder=t.confirm;
+ $('signupFirstName').placeholder=t.firstName;$('signupLastName').placeholder=t.lastName;$('signupPhone').placeholder='+964 7XX XXX XXXX';
+ $('signupEmail').placeholder=t.email;$('signupPassword').placeholder=t.password;$('confirmPassword').placeholder=t.confirm;
  $('signupBtn').textContent=t.create;$('goLogin').textContent=t.goLogin;
  $('loginPanel').querySelector('.wl-auth-heading').innerHTML=t.welcome+' <span>WORLDLINK</span>';
  $('signupPanel').querySelector('.wl-auth-heading').innerHTML=t.join+' <span>WORLDLINK</span>';
@@ -257,12 +261,14 @@ $('composerFeeling').addEventListener('click',()=>showTab('upload'));
 $('storyCreate').addEventListener('click',()=>showTab('upload'));
 $('messageTop').addEventListener('click',()=>showTab('account'));
 $('signupBtn').addEventListener('click',async()=>{
- const name=$('signupName').value.trim(),email=$('signupEmail').value.trim(),password=$('signupPassword').value,birth=$('signupBirthDate').value;
+ const firstName=$('signupFirstName').value.trim(),lastName=$('signupLastName').value.trim(),phone=$('signupPhone').value.trim(),email=$('signupEmail').value.trim(),password=$('signupPassword').value,birth=$('signupBirthDate').value;
+ const name=(firstName+' '+lastName).trim();
  if(ageFromDate(birth)<13){message('authMessage','بۆ خۆتۆمارکردن دەبێت لانیکەم ١٣ ساڵت تەواو کردبێت و بەرواری دروست بنووسیت.','err');return}
- if(!name||!email||password.length<8){message('authMessage','ناو و ئیمەیڵ بنووسە؛ وشەی نهێنی دەبێت لانیکەم ٨ پیت بێت.','err');return}
+ if(!firstName||!lastName||!phone||!email||password.length<8){message('authMessage','ناوی یەکەم، ناوی کۆتا، ژمارەی مۆبایل و ئیمەیڵ پڕ بکەرەوە؛ وشەی نهێنی لانیکەم ٨ پیت بێت.','err');return}
+ if(!/^\+?[0-9\s().-]{7,20}$/.test(phone)){message('authMessage','ژمارەی مۆبایل بە شێوەی دروست بنووسە، بۆ نموونە +964 7XX XXX XXXX.','err');return}
  if(password!==$('confirmPassword').value){message('authMessage','وشەی نهێنی و دووبارەکردنەوەکەی یەکسان نین.','err');return}
  $('signupBtn').disabled=true;
- const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name,age_13_plus_attested:true},emailRedirectTo:SITE_URL}});
+ const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name,first_name:firstName,last_name:lastName,phone_number:phone,age_13_plus_attested:true},emailRedirectTo:SITE_URL}});
  $('signupBtn').disabled=false;
  if(error){message('authMessage',error.message,'err');return}
  if(data.session){message('authMessage','هەژمارەکەت دروست بوو.','ok')}
