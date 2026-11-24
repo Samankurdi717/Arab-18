@@ -55,6 +55,26 @@ main{max-width:680px;margin:16px auto;padding:0 10px}
 .panel,.profile-row{background:#fff;color:#1c1e21;border-color:#dddfe2}.field{background:#f0f2f5;color:#1c1e21;border-color:#dddfe2}
 .btn{background:#1877f2}.btn.secondary{background:#e4e6eb;color:#1c1e21;border-color:#dddfe2}footer{color:#65676b}
 @media(max-width:520px){.wl-top{gap:7px;padding:7px 9px}.wl-logo{font-size:23px}.wl-menu,.wl-circle{width:36px;height:36px}.wl-search{max-width:none}.wl-search input{min-width:0}.wl-nav button{font-size:25px}.wl-story{flex-basis:108px;height:160px}}
+
+/* Facebook-inspired WORLDLINK sign-in and sign-up */
+#accountSection{margin:14px auto 22px;max-width:520px}
+#accountSection>.section-head{display:none}
+#accountSection>.panel{padding:0;border:1px solid #dddfe2;border-radius:12px;background:#fff;box-shadow:0 2px 12px #00000012;overflow:hidden}
+#signedOut{padding:22px 20px 24px}
+.wl-auth-tabs{display:flex;gap:8px;margin-bottom:18px;background:#f0f2f5;border-radius:10px;padding:4px}
+.wl-auth-tab{flex:1;border:0;border-radius:8px;padding:10px 6px;background:transparent;color:#606770;font-weight:700}
+.wl-auth-tab.active{background:#fff;color:#1877f2;box-shadow:0 1px 4px #00000018}
+.wl-auth-heading{text-align:center;font-size:24px;font-weight:800;color:#1c1e21;margin:5px 0 4px}
+.wl-auth-heading span{color:#1877f2}.wl-auth-subtitle{text-align:center;color:#65676b;font-size:14px;margin:4px 0 18px}
+.wl-auth-input{direction:ltr;text-align:left;background:#fff!important;border:1px solid #dddfe2!important;border-radius:9px!important;padding:15px!important;font-size:16px;margin:7px 0 14px!important;color:#1c1e21!important}
+.wl-login-btn{width:100%;background:#1877f2!important;border-radius:9px;padding:13px;font-size:18px;margin-top:4px}
+.wl-forgot{display:block;margin:12px auto 0;border:0;background:transparent;color:#1877f2;font-size:15px;padding:5px}
+.wl-auth-divider{height:1px;background:#dddfe2;margin:22px 0}
+.wl-create-btn{display:block;margin:0 auto;background:#36a420;color:#fff;border:0;border-radius:9px;padding:13px 20px;font-size:17px;font-weight:750}
+.wl-create-submit{width:100%;margin-top:12px}.wl-auth-panel[hidden]{display:none!important}
+#authMessage{margin:12px 2px 0;text-align:center}
+#signedOut .notice{text-align:center}
+@media(max-width:520px){#accountSection{margin:8px auto 18px}#signedOut{padding:18px 14px 20px}.wl-auth-heading{font-size:22px}}
 </style>
 </head>
 <body>
@@ -82,9 +102,26 @@ main{max-width:680px;margin:16px auto;padding:0 10px}
   <div class="section-head"><h2>هەژمار و چوونەژوورەوە</h2><span class="muted" id="authState">پشکنینی هەژمار...</span></div>
   <div class="panel">
    <div id="signedOut">
-    <div class="auth-grid">
-     <div><h3>چوونەژوورەوە</h3><label class="muted" for="loginEmail">ئیمەیڵ</label><input class="field" id="loginEmail" type="email" autocomplete="email" placeholder="name@example.com"><label class="muted" for="loginPassword">وشەی نهێنی</label><input class="field" id="loginPassword" type="password" autocomplete="current-password" placeholder="وشەی نهێنی"><button class="btn" id="loginBtn">چوونەژوورەوە</button><button class="btn secondary" id="forgotBtn" style="margin-right:6px">وشەی نهێنیم لەبیرچووە</button></div>
-     <div><h3>دروستکردنی هەژماری نوێ</h3><label class="muted" for="signupName">ناوی پیشاندان</label><input class="field" id="signupName" maxlength="40" autocomplete="name" placeholder="ناوت"><label class="muted" for="signupEmail">ئیمەیڵ</label><input class="field" id="signupEmail" type="email" autocomplete="email" placeholder="name@example.com"><label class="muted" for="signupPassword">وشەی نهێنی (لانیکەم ٨ پیت)</label><input class="field" id="signupPassword" type="password" autocomplete="new-password" minlength="8" placeholder="وشەی نهێنی"><button class="btn" id="signupBtn">دروستکردنی هەژمار</button></div>
+    <div class="wl-auth-tabs"><button type="button" id="showLogin" class="wl-auth-tab active">چوونەژوورەوە</button><button type="button" id="showSignup" class="wl-auth-tab">خۆتۆمارکردن</button></div>
+    <div id="loginPanel" class="wl-auth-panel">
+     <div class="wl-auth-heading">بەخێربێیت بۆ <span>WORLDLINK</span></div>
+     <p class="wl-auth-subtitle">بۆ بەردەوامبوون بچۆ ژوورەوە</p>
+     <label class="muted" for="loginEmail">ئیمەیڵ یان ژمارەی مۆبایل</label><input class="field wl-auth-input" id="loginEmail" type="email" autocomplete="email" placeholder="ئیمەیڵەکەت بنووسە">
+     <label class="muted" for="loginPassword">وشەی نهێنی</label><input class="field wl-auth-input" id="loginPassword" type="password" autocomplete="current-password" placeholder="وشەی نهێنی">
+     <button class="btn wl-login-btn" id="loginBtn">چوونەژوورەوە</button>
+     <button class="wl-forgot" id="forgotBtn" type="button">وشەی نهێنیم لەبیرچووە؟</button>
+     <div class="wl-auth-divider"></div>
+     <button class="wl-create-btn" id="goSignup" type="button">دروستکردنی هەژماری نوێ</button>
+    </div>
+    <div id="signupPanel" class="wl-auth-panel" hidden>
+     <div class="wl-auth-heading">بەشداری بکە لە <span>WORLDLINK</span></div>
+     <p class="wl-auth-subtitle">هەژماری خۆت دروست بکە</p>
+     <label class="muted" for="signupName">ناوی تەواو</label><input class="field wl-auth-input" id="signupName" maxlength="40" autocomplete="name" placeholder="ناوت بنووسە">
+     <label class="muted" for="signupEmail">ئیمەیڵ</label><input class="field wl-auth-input" id="signupEmail" type="email" autocomplete="email" placeholder="name@example.com">
+     <label class="muted" for="signupPassword">وشەی نهێنی (لانیکەم ٨ پیت)</label><input class="field wl-auth-input" id="signupPassword" type="password" autocomplete="new-password" minlength="8" placeholder="وشەی نهێنی">
+     <label class="muted" for="confirmPassword">دووبارە وشەی نهێنی</label><input class="field wl-auth-input" id="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="وشەی نهێنی دووبارە بنووسە">
+     <button class="wl-create-btn wl-create-submit" id="signupBtn">دروستکردنی هەژمار</button>
+     <p class="wl-auth-subtitle">هەژمارت هەیە؟ <button class="wl-forgot" id="goLogin" type="button">بچۆ ژوورەوە</button></p>
     </div>
     <div id="authMessage" class="status" aria-live="polite"></div>
     <p class="notice">لەوانەیە بۆ چالاککردنی هەژمار پێویستت بە کرتەکردنی لینکی پشتڕاستکردنەوەی ئیمەیڵ بێت. هەژمار بۆ کەسانی ١٨ ساڵ و سەرووترە.</p>
@@ -135,6 +172,16 @@ function showTab(tab){
 }
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 $('authNavBtn').addEventListener('click',()=>showTab('account'));
+function setAuthMode(mode){
+ const login=mode==='login';
+ $('loginPanel').hidden=!login;$('signupPanel').hidden=login;
+ $('showLogin').classList.toggle('active',login);$('showSignup').classList.toggle('active',!login);
+ message('authMessage','','');
+}
+$('showLogin').addEventListener('click',()=>setAuthMode('login'));
+$('showSignup').addEventListener('click',()=>setAuthMode('signup'));
+$('goSignup').addEventListener('click',()=>setAuthMode('signup'));
+$('goLogin').addEventListener('click',()=>setAuthMode('login'));
 $('createPostTop').addEventListener('click',()=>showTab('upload'));
 $('composerOpen').addEventListener('click',()=>showTab('upload'));
 $('composerPhoto').addEventListener('click',()=>showTab('upload'));
@@ -144,6 +191,7 @@ $('messageTop').addEventListener('click',()=>showTab('account'));
 $('signupBtn').addEventListener('click',async()=>{
  const name=$('signupName').value.trim(),email=$('signupEmail').value.trim(),password=$('signupPassword').value;
  if(!name||!email||password.length<8){message('authMessage','ناو و ئیمەیڵ بنووسە؛ وشەی نهێنی دەبێت لانیکەم ٨ پیت بێت.','err');return}
+ if(password!==$('confirmPassword').value){message('authMessage','وشەی نهێنی و دووبارەکردنەوەکەی یەکسان نین.','err');return}
  $('signupBtn').disabled=true;
  const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name},emailRedirectTo:SITE_URL}});
  $('signupBtn').disabled=false;
