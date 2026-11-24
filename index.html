@@ -75,6 +75,23 @@ main{max-width:680px;margin:16px auto;padding:0 10px}
 #authMessage{margin:12px 2px 0;text-align:center}
 #signedOut .notice{text-align:center}
 @media(max-width:520px){#accountSection{margin:8px auto 18px}#signedOut{padding:18px 14px 20px}.wl-auth-heading{font-size:22px}}
+
+/* WORLDLINK public welcome and authentication landing */
+.wl-auth-landing{max-width:470px;margin:0 auto;padding:18px 16px 35px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.wl-auth-brand{text-align:center;margin:0 auto 12px;color:#102b50}
+.wl-auth-brand svg{width:150px;height:112px;display:block;margin:0 auto -2px}
+.wl-auth-brand-name{font-size:32px;font-weight:950;letter-spacing:-1px;color:#17345e}.wl-auth-brand-name span{color:#d9a52e}
+.wl-auth-tagline{font-size:13px;color:#66758b;letter-spacing:.5px}
+.wl-language-row{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 16px;color:#536174;font-size:13px}
+.wl-language-row select{border:1px solid #d3d9e2;border-radius:8px;padding:8px 12px;background:#fff;color:#1c1e21;font:inherit}
+body:not(.wl-authenticated) .wl-header,body:not(.wl-authenticated) main,body:not(.wl-authenticated) footer{display:none!important}
+body.wl-authenticated #authLanding{display:none!important}
+body.wl-authenticated .wl-header,body.wl-authenticated main,body.wl-authenticated footer{display:block}
+#accountSection{width:100%;max-width:440px;margin:0 auto 18px}
+#accountSection>.panel{box-shadow:0 3px 16px #102b5014}
+#signedOut{padding:18px 17px 20px}
+.wl-auth-tabs{margin-bottom:15px}
+@media(max-width:520px){.wl-auth-landing{justify-content:flex-start;padding-top:24px}.wl-auth-brand svg{width:132px;height:100px}.wl-auth-brand-name{font-size:29px}}
 </style>
 </head>
 <body>
@@ -88,19 +105,24 @@ main{max-width:680px;margin:16px auto;padding:0 10px}
  <button class="btn" id="enterBtn">بەردەوامبوون</button>
  <p style="font-size:11px">ئەگەر تەمەنت لە ١٣ ساڵ کەمترە، ناتوانیت هەژمار دروست بکەیت. بەروارەکەت لە سیستەمەکەدا پاشەکەوت ناکرێت.</p>
 </div></div>
-<header class="wl-header"><div class="wl-top">
- <button class="wl-menu" id="authNavBtn" aria-label="هەژمار">☰</button>
- <div class="wl-logo">WORLD<span>LINK</span></div>
- <div class="wl-search"><input id="searchInput" placeholder="گەڕان لە WORLDLINK..."><button id="searchBtn" aria-label="گەڕان">⌕</button></div>
- <button class="wl-circle" id="createPostTop" aria-label="پۆستی نوێ">＋</button>
- <button class="wl-circle" id="messageTop" aria-label="پەیام">☏</button>
-</div><nav class="wl-nav">
- <button class="active" data-tab="home" aria-label="سەرەکی">⌂</button><button data-tab="people" aria-label="هاوڕێیان">♧</button><button data-tab="profile" aria-label="پڕۆفایل">◉</button><button data-tab="upload" aria-label="بڵاوکردنەوە">＋</button><button data-tab="account" aria-label="هەژمار">☻</button>
-</nav></header>
-<main>
- <section class="wl-welcome"><h1>بەخێربێیت بۆ WORLDLINK</h1><p>لەگەڵ هاوڕێکانت پەیوەندی بکە و بیرۆکە و وێنەکانت هاوبەش بکە.</p></section>
- <section class="wl-composer"><div class="wl-composer-row"><div class="wl-avatar">W</div><button id="composerOpen" class="wl-composer-prompt">چی لە مێشکتدایە؟</button></div><div class="wl-composer-actions"><button id="composerPhoto">▧ وێنە / ڤیدیۆ</button><button id="composerFeeling">☺ هەست و بیرۆکە</button></div></section>
- <section class="wl-stories"><div class="wl-section-title">ستۆرییەکان <span>بینینی هەموو</span></div><div class="wl-story-row"><button class="wl-story wl-story-create" id="storyCreate"><b>＋</b><span>ستۆری دروست بکە</span></button><div class="wl-story wl-story-one"><span>W</span><b>هاوڕێکانت</b></div><div class="wl-story wl-story-two"><span>✦</span><b>WORLDLINK</b></div><div class="wl-story wl-story-three"><span>☺</span><b>کۆمەڵگا</b></div></div></section>
+<section id="authLanding" class="wl-auth-landing">
+ <div class="wl-auth-brand">
+  <svg viewBox="0 0 320 230" role="img" aria-label="WORLDLINK Kurdish flag logo">
+   <defs><linearGradient id="wlBlue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0b2e69"/><stop offset="1" stop-color="#07152e"/></linearGradient><linearGradient id="wlGold" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ffe58a"/><stop offset="1" stop-color="#d99a18"/></linearGradient></defs>
+   <circle cx="160" cy="91" r="67" fill="url(#wlBlue)" stroke="#e6b53e" stroke-width="3"/>
+   <path d="M95 79 Q160 40 225 79 M95 105 Q160 144 225 105" fill="none" stroke="#48b9ff" stroke-width="2.5"/>
+   <path d="M160 25 C128 57 128 125 160 157 M160 25 C192 57 192 125 160 157" fill="none" stroke="#48b9ff" stroke-width="2"/>
+   <path d="M34 48 Q88 8 143 42 L143 70 Q88 36 34 76Z" fill="#e32636"/><path d="M34 76 Q88 36 143 70 L143 96 Q88 62 34 102Z" fill="#fff"/><path d="M34 102 Q88 62 143 96 L143 122 Q88 88 34 128Z" fill="#159447"/>
+   <circle cx="88" cy="69" r="10" fill="#f5d21b"/>
+   <g fill="#fff"><circle cx="133" cy="83" r="8"/><circle cx="160" cy="62" r="11"/><circle cx="187" cy="83" r="8"/><path d="M119 120 Q133 91 147 120Z M142 135 Q160 89 178 135Z M173 120 Q187 91 201 120Z"/></g>
+   <path d="M53 167 Q160 189 267 167" fill="none" stroke="url(#wlGold)" stroke-width="5" stroke-linecap="round"/>
+   <text x="160" y="202" text-anchor="middle" font-size="27" font-weight="900" fill="#fff">WORLD<tspan fill="#f5c542">LINK</tspan></text>
+   <g fill="#f5c542"><path d="M75 217l4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z"/><path d="M118 217l4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z"/><path d="M160 214l4 9 10 1-7 7 2 9-9-5-8 5 2-9-7-7 10-1z"/><path d="M202 217l4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z"/><path d="M245 217l4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z"/></g>
+  </svg>
+  <div class="wl-auth-brand-name">WORLD<span>LINK</span></div>
+  <div class="wl-auth-tagline">Connect the World</div>
+ </div>
+ <div class="wl-language-row"><label for="languageSelect" id="languageLabel">زمان / Language</label><select id="languageSelect" aria-label="Choose language"><option value="ku">کوردی</option><option value="en">English</option><option value="ar">العربية</option></select></div>
  <section id="accountSection">
   <div class="section-head"><h2>هەژمار و چوونەژوورەوە</h2><span class="muted" id="authState">پشکنینی هەژمار...</span></div>
   <div class="panel">
@@ -133,6 +155,21 @@ main{max-width:680px;margin:16px auto;padding:0 10px}
    <div id="signedIn" hidden><div class="profile-row"><div class="avatar" id="userAvatar">✓</div><div><strong id="userEmail"></strong><span>بە سەرکەوتوویی چوویتە ژوورەوە</span></div></div><div class="actions" style="margin-top:14px"><button class="btn secondary" id="signoutBtn">چوونەدەرەوە</button></div><div id="memberMessage" class="status"></div></div>
   </div>
  </section>
+</section>
+<header class="wl-header"><div class="wl-top">
+ <button class="wl-menu" id="authNavBtn" aria-label="هەژمار">☰</button>
+ <div class="wl-logo">WORLD<span>LINK</span></div>
+ <div class="wl-search"><input id="searchInput" placeholder="گەڕان لە WORLDLINK..."><button id="searchBtn" aria-label="گەڕان">⌕</button></div>
+ <button class="wl-circle" id="createPostTop" aria-label="پۆستی نوێ">＋</button>
+ <button class="wl-circle" id="messageTop" aria-label="پەیام">☏</button>
+</div><nav class="wl-nav">
+ <button class="active" data-tab="home" aria-label="سەرەکی">⌂</button><button data-tab="people" aria-label="هاوڕێیان">♧</button><button data-tab="profile" aria-label="پڕۆفایل">◉</button><button data-tab="upload" aria-label="بڵاوکردنەوە">＋</button><button data-tab="account" aria-label="هەژمار">☻</button>
+</nav></header>
+<main>
+ <section class="wl-welcome"><h1>بەخێربێیت بۆ WORLDLINK</h1><p>لەگەڵ هاوڕێکانت پەیوەندی بکە و بیرۆکە و وێنەکانت هاوبەش بکە.</p></section>
+ <section class="wl-composer"><div class="wl-composer-row"><div class="wl-avatar">W</div><button id="composerOpen" class="wl-composer-prompt">چی لە مێشکتدایە؟</button></div><div class="wl-composer-actions"><button id="composerPhoto">▧ وێنە / ڤیدیۆ</button><button id="composerFeeling">☺ هەست و بیرۆکە</button></div></section>
+ <section class="wl-stories"><div class="wl-section-title">ستۆرییەکان <span>بینینی هەموو</span></div><div class="wl-story-row"><button class="wl-story wl-story-create" id="storyCreate"><b>＋</b><span>ستۆری دروست بکە</span></button><div class="wl-story wl-story-one"><span>W</span><b>هاوڕێکانت</b></div><div class="wl-story wl-story-two"><span>✦</span><b>WORLDLINK</b></div><div class="wl-story wl-story-three"><span>☺</span><b>کۆمەڵگا</b></div></div></section>
+
  <section id="feedSection"><div class="section-head"><h2>پۆستە نوێکان</h2><span class="muted">دوای چوونەژوورەوە دەردەکەون</span></div><div id="feed" class="grid"><div class="empty">بۆ بینینی پۆستەکان سەرەتا بچۆ ژوورەوە.</div></div></section>
  <section id="peopleSection" hidden><div class="section-head"><h2>ئەندامانی کۆمەڵگا</h2><span class="muted">پڕۆفایل و شوێنکەوتن</span></div><div id="people" class="people-grid"><div class="empty">بۆ بینینی ئەندامان بچۆ ژوورەوە.</div></div></section>
  <section id="profileSection" hidden><div class="section-head"><h2>پڕۆفایلی من</h2></div><div class="panel">
@@ -195,6 +232,33 @@ function setAuthMode(mode){
  $('showLogin').classList.toggle('active',login);$('showSignup').classList.toggle('active',!login);
  message('authMessage','','');
 }
+
+const translations={
+ ku:{login:'چوونەژوورەوە',signup:'خۆتۆمارکردن',welcome:'بەخێربێیت بۆ',loginHint:'بۆ بەردەوامبوون بچۆ ژوورەوە',email:'ئیمەیڵ',password:'وشەی نهێنی',forgot:'وشەی نهێنیم لەبیرچووە؟',create:'دروستکردنی هەژماری نوێ',join:'بەشداری بکە لە',signupHint:'هەژماری خۆت دروست بکە',name:'ناوی تەواو',birth:'بەرواری لەدایکبوون (لانیکەم ١٣ ساڵ)',confirm:'دووبارە وشەی نهێنی',hasAccount:'هەژمارت هەیە؟',goLogin:'بچۆ ژوورەوە',language:'زمان'},
+ en:{login:'Log In',signup:'Sign Up',welcome:'Welcome to',loginHint:'Log in to continue',email:'Email address',password:'Password',forgot:'Forgot password?',create:'Create new account',join:'Join',signupHint:'Create your account',name:'Full name',birth:'Date of birth (13+)',confirm:'Confirm password',hasAccount:'Already have an account?',goLogin:'Log in',language:'Language'},
+ ar:{login:'تسجيل الدخول',signup:'إنشاء حساب',welcome:'مرحباً بك في',loginHint:'سجّل الدخول للمتابعة',email:'البريد الإلكتروني',password:'كلمة المرور',forgot:'هل نسيت كلمة المرور؟',create:'إنشاء حساب جديد',join:'انضم إلى',signupHint:'أنشئ حسابك',name:'الاسم الكامل',birth:'تاريخ الميلاد (13 سنة فأكثر)',confirm:'تأكيد كلمة المرور',hasAccount:'لديك حساب بالفعل؟',goLogin:'تسجيل الدخول',language:'اللغة'}
+};
+function applyLanguage(lang){
+ const t=translations[lang]||translations.ku;document.documentElement.lang=lang;document.documentElement.dir=lang==='en'?'ltr':'rtl';
+ $('languageLabel').textContent=t.language;
+ $('showLogin').textContent=t.login;$('showSignup').textContent=t.signup;
+ $('loginEmail').previousElementSibling.textContent=t.email;$('loginPassword').previousElementSibling.textContent=t.password;
+ $('loginEmail').placeholder=t.email;$('loginPassword').placeholder=t.password;
+ $('loginBtn').textContent=t.login;$('forgotBtn').textContent=t.forgot;$('goSignup').textContent=t.create;
+ $('signupName').previousElementSibling.textContent=t.name;$('signupBirthDate').previousElementSibling.textContent=t.birth;
+ $('signupEmail').previousElementSibling.textContent=t.email;$('signupPassword').previousElementSibling.textContent=t.password;
+ $('confirmPassword').previousElementSibling.textContent=t.confirm;
+ $('signupName').placeholder=t.name;$('signupEmail').placeholder=t.email;$('signupPassword').placeholder=t.password;$('confirmPassword').placeholder=t.confirm;
+ $('signupBtn').textContent=t.create;$('goLogin').textContent=t.goLogin;
+ $('loginPanel').querySelector('.wl-auth-heading').innerHTML=t.welcome+' <span>WORLDLINK</span>';
+ $('signupPanel').querySelector('.wl-auth-heading').innerHTML=t.join+' <span>WORLDLINK</span>';
+ $('loginPanel').querySelector('.wl-auth-subtitle').textContent=t.loginHint;
+ $('signupPanel').querySelector('.wl-auth-subtitle').textContent=t.signupHint;
+}
+const savedLang=localStorage.getItem('worldlink_language')||'ku';
+$('languageSelect').value=savedLang;applyLanguage(savedLang);
+$('languageSelect').addEventListener('change',e=>{localStorage.setItem('worldlink_language',e.target.value);applyLanguage(e.target.value)});
+
 $('showLogin').addEventListener('click',()=>setAuthMode('login'));
 $('showSignup').addEventListener('click',()=>setAuthMode('signup'));
 $('goSignup').addEventListener('click',()=>setAuthMode('signup'));
@@ -327,7 +391,7 @@ $('uploadBtn').addEventListener('click',async()=>{
  $('mediaFile').value='';$('caption').value='';$('uploadBtn').disabled=false;message('uploadMessage','پۆستەکەت بە سەرکەوتوویی بڵاوکرایەوە.','ok');await loadPosts();showTab('home');
 });
 function updateAuthUI(){
- const inUser=!!currentUser;$('signedOut').hidden=inUser;$('signedIn').hidden=!inUser;
+ const inUser=!!currentUser;document.body.classList.toggle('wl-authenticated',inUser);$('signedOut').hidden=inUser;$('signedIn').hidden=!inUser;
  $('authState').textContent=inUser?'چوویتە ژوورەوە':'چوونەژوورەوە پێویستە';
  $('authNavBtn').textContent=inUser?'هەژمارم':'چوونەژوورەوە';
  if(inUser){$('userEmail').textContent=currentUser.email||'';$('userAvatar').textContent=(currentUser.email||'U').charAt(0).toUpperCase();$('feed').innerHTML='<div class="empty">پۆستەکان بار دەکرێن...</div>'}
