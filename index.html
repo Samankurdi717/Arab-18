@@ -81,9 +81,12 @@ main{max-width:680px;margin:16px auto;padding:0 10px}
 <div id="ageGate"><div class="gate">
  <div class="brand">WORLD<b> LINK</b></div>
  <h2>بەخێربێیت بۆ WORLDLINK</h2>
- <p>ئەم کۆمەڵگایە تەنها بۆ کەسانی ١٨ ساڵ و سەرووترە. بەردەوامبوون پشتڕاست دەکاتەوە کە تەمەنت ١٨ ساڵ یان زیاترە و پابەندی یاساکانی ناوچەکەتیت.</p>
- <button class="btn" id="enterBtn">١٨ ساڵم تەواو کردووە — بچۆ ژوورەوە</button>
- <p style="font-size:11px">ئەگەر تەمەنت لە ١٨ ساڵ کەمترە، تکایە دەرچۆ.</p>
+ <p>بۆ بەکارهێنانی WORLDLINK دەبێت لانیکەم ١٣ ساڵت تەواو کردبێت. بەرواری لەدایکبوونت هەڵبژێرە.</p>
+ <label class="muted" for="gateBirthDate">بەرواری لەدایکبوون</label>
+ <input class="field" id="gateBirthDate" type="date" style="background:#fff;color:#1c1e21">
+ <div id="gateMessage" class="status err" aria-live="polite"></div>
+ <button class="btn" id="enterBtn">بەردەوامبوون</button>
+ <p style="font-size:11px">ئەگەر تەمەنت لە ١٣ ساڵ کەمترە، ناتوانیت هەژمار دروست بکەیت. بەروارەکەت لە سیستەمەکەدا پاشەکەوت ناکرێت.</p>
 </div></div>
 <header class="wl-header"><div class="wl-top">
  <button class="wl-menu" id="authNavBtn" aria-label="هەژمار">☰</button>
@@ -117,6 +120,7 @@ main{max-width:680px;margin:16px auto;padding:0 10px}
      <div class="wl-auth-heading">بەشداری بکە لە <span>WORLDLINK</span></div>
      <p class="wl-auth-subtitle">هەژماری خۆت دروست بکە</p>
      <label class="muted" for="signupName">ناوی تەواو</label><input class="field wl-auth-input" id="signupName" maxlength="40" autocomplete="name" placeholder="ناوت بنووسە">
+     <label class="muted" for="signupBirthDate">بەرواری لەدایکبوون (لانیکەم ١٣ ساڵ)</label><input class="field wl-auth-input" id="signupBirthDate" type="date" required>
      <label class="muted" for="signupEmail">ئیمەیڵ</label><input class="field wl-auth-input" id="signupEmail" type="email" autocomplete="email" placeholder="name@example.com">
      <label class="muted" for="signupPassword">وشەی نهێنی (لانیکەم ٨ پیت)</label><input class="field wl-auth-input" id="signupPassword" type="password" autocomplete="new-password" minlength="8" placeholder="وشەی نهێنی">
      <label class="muted" for="confirmPassword">دووبارە وشەی نهێنی</label><input class="field wl-auth-input" id="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="وشەی نهێنی دووبارە بنووسە">
@@ -124,7 +128,7 @@ main{max-width:680px;margin:16px auto;padding:0 10px}
      <p class="wl-auth-subtitle">هەژمارت هەیە؟ <button class="wl-forgot" id="goLogin" type="button">بچۆ ژوورەوە</button></p>
     </div>
     <div id="authMessage" class="status" aria-live="polite"></div>
-    <p class="notice">لەوانەیە بۆ چالاککردنی هەژمار پێویستت بە کرتەکردنی لینکی پشتڕاستکردنەوەی ئیمەیڵ بێت. هەژمار بۆ کەسانی ١٨ ساڵ و سەرووترە.</p>
+    <p class="notice">لەوانەیە بۆ چالاککردنی هەژمار پێویستت بە کرتەکردنی لینکی پشتڕاستکردنەوەی ئیمەیڵ بێت. تەنها کەسانی ١٣ ساڵ و سەرووتر دەتوانن هەژمار دروست بکەن. ڕێساکانی کۆمەڵگا و پاراستنی تەمەنەکان پابەند بە.</p>
    </div>
    <div id="signedIn" hidden><div class="profile-row"><div class="avatar" id="userAvatar">✓</div><div><strong id="userEmail"></strong><span>بە سەرکەوتوویی چوویتە ژوورەوە</span></div></div><div class="actions" style="margin-top:14px"><button class="btn secondary" id="signoutBtn">چوونەدەرەوە</button></div><div id="memberMessage" class="status"></div></div>
   </div>
@@ -140,7 +144,7 @@ main{max-width:680px;margin:16px auto;padding:0 10px}
  </div></section>
  <section id="searchSection" hidden><div class="section-head"><h2>ئەنجامی گەڕان</h2></div><div id="searchResults" class="grid"></div></section>
 </main>
-<footer>WORLDLINK © 2026 — تەنها بۆ ١٨+ • ڕەزامەندی، یاسا و تایبەتمەندی گرنگن</footer>
+<footer>WORLDLINK © 2026 — بۆ کەسانی ١٣ ساڵ و سەرووتر • پاراستن و تایبەتمەندی گرنگن</footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
@@ -151,8 +155,21 @@ const SITE_URL='https://samankurdi717.github.io/Arab-18/';
 const BUCKET='desire-media';
 const $=id=>document.getElementById(id);
 const gate=$('ageGate');
-if(sessionStorage.getItem('arab18_age_ok')==='yes')gate.remove();
-$('enterBtn').addEventListener('click',()=>{sessionStorage.setItem('arab18_age_ok','yes');gate.remove()});
+function ageFromDate(value){
+ if(!value)return -1;
+ const birth=new Date(value+'T00:00:00'),today=new Date();
+ if(Number.isNaN(birth.getTime())||birth>today)return -1;
+ let age=today.getFullYear()-birth.getFullYear();
+ const month=today.getMonth()-birth.getMonth();
+ if(month<0||(month===0&&today.getDate()<birth.getDate()))age--;
+ return age;
+}
+if(sessionStorage.getItem('worldlink_age13_ok')==='yes')gate.remove();
+$('enterBtn').addEventListener('click',()=>{
+ const age=ageFromDate($('gateBirthDate').value);
+ if(age<13){$('gateMessage').textContent=age<0?'تکایە بەرواری دروست هەڵبژێرە.':'ببورە، بۆ بەکارهێنانی WORLDLINK دەبێت لانیکەم ١٣ ساڵت هەبێت.';return}
+ sessionStorage.setItem('worldlink_age13_ok','yes');gate.remove();
+});
 function message(id,text,type){const el=$(id);el.textContent=text;el.className='status'+(type?' '+type:'')}
 function escapeText(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 if(!window.supabase){message('authMessage','پەیوەندی Supabase بارنەبوو. تکایە پەڕەکە نوێ بکەرەوە.','err');return}
@@ -189,11 +206,12 @@ $('composerFeeling').addEventListener('click',()=>showTab('upload'));
 $('storyCreate').addEventListener('click',()=>showTab('upload'));
 $('messageTop').addEventListener('click',()=>showTab('account'));
 $('signupBtn').addEventListener('click',async()=>{
- const name=$('signupName').value.trim(),email=$('signupEmail').value.trim(),password=$('signupPassword').value;
+ const name=$('signupName').value.trim(),email=$('signupEmail').value.trim(),password=$('signupPassword').value,birth=$('signupBirthDate').value;
+ if(ageFromDate(birth)<13){message('authMessage','بۆ خۆتۆمارکردن دەبێت لانیکەم ١٣ ساڵت تەواو کردبێت و بەرواری دروست بنووسیت.','err');return}
  if(!name||!email||password.length<8){message('authMessage','ناو و ئیمەیڵ بنووسە؛ وشەی نهێنی دەبێت لانیکەم ٨ پیت بێت.','err');return}
  if(password!==$('confirmPassword').value){message('authMessage','وشەی نهێنی و دووبارەکردنەوەکەی یەکسان نین.','err');return}
  $('signupBtn').disabled=true;
- const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name},emailRedirectTo:SITE_URL}});
+ const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name,age_13_plus_attested:true},emailRedirectTo:SITE_URL}});
  $('signupBtn').disabled=false;
  if(error){message('authMessage',error.message,'err');return}
  if(data.session){message('authMessage','هەژمارەکەت دروست بوو.','ok')}
