@@ -96,6 +96,8 @@ body.wl-authenticated .wl-header,body.wl-authenticated main,body.wl-authenticate
 /* Soft light-blue WORLDLINK welcome background */
 body{background:#eaf3ff!important;color:#1c1e21}
 .wl-auth-landing{background:transparent}
+
+.wl-phone-row{display:grid;grid-template-columns:minmax(116px,38%) 1fr;gap:8px;align-items:center}.wl-phone-row .wl-auth-input{min-width:0;width:100%;box-sizing:border-box}.wl-birth-row{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:8px}.wl-birth-row .wl-auth-input{min-width:0;width:100%;box-sizing:border-box;padding:13px 8px!important}
 </style>
 </head>
 <body>
@@ -137,8 +139,8 @@ body{background:#eaf3ff!important;color:#1c1e21}
      <p class="wl-auth-subtitle">هەژماری خۆت دروست بکە</p>
      <label class="muted" for="signupFirstName">ناوی یەکەم</label><input class="field wl-auth-input" id="signupFirstName" maxlength="30" autocomplete="given-name" placeholder="ناوی یەکەمت بنووسە" required>
      <label class="muted" for="signupLastName">ناوی کۆتا</label><input class="field wl-auth-input" id="signupLastName" maxlength="40" autocomplete="family-name" placeholder="ناوی کۆتات بنووسە" required>
-     <label class="muted" for="signupPhone">ژمارەی مۆبایل</label><input class="field wl-auth-input" id="signupPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+964 7XX XXX XXXX" required>
-     <label class="muted" for="signupBirthDate">بەرواری لەدایکبوون (لانیکەم ١٣ ساڵ)</label><input class="field wl-auth-input" id="signupBirthDate" type="date" required>
+     <label class="muted" for="signupPhone">ژمارەی مۆبایل</label><div class="wl-phone-row"><select class="field wl-auth-input" id="signupCountryCode" aria-label="Country calling code"></select><input class="field wl-auth-input" id="signupPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="7XX XXX XXXX" required></div>
+     <label class="muted" for="birthDay">بەرواری لەدایکبوون (لانیکەم ١٣ ساڵ)</label><div class="wl-birth-row"><select class="field wl-auth-input" id="birthDay" aria-label="Day" required><option value="">ڕۆژ</option></select><select class="field wl-auth-input" id="birthMonth" aria-label="Month" required><option value="">مانگ</option></select><select class="field wl-auth-input" id="birthYear" aria-label="Year" required><option value="">ساڵ</option></select></div>
      <label class="muted" for="signupEmail">ئیمەیڵ</label><input class="field wl-auth-input" id="signupEmail" type="email" autocomplete="email" placeholder="name@example.com" required>
      <label class="muted" for="signupPassword">وشەی نهێنی (لانیکەم ٨ پیت)</label><input class="field wl-auth-input" id="signupPassword" type="password" autocomplete="new-password" minlength="8" placeholder="وشەی نهێنی">
      <label class="muted" for="confirmPassword">دووبارە وشەی نهێنی</label><input class="field wl-auth-input" id="confirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="وشەی نهێنی دووبارە بنووسە">
@@ -235,10 +237,10 @@ function applyLanguage(lang){
  $('loginEmail').placeholder=t.email;$('loginPassword').placeholder=t.password;
  $('loginBtn').textContent=t.login;$('forgotBtn').textContent=t.forgot;$('goSignup').textContent=t.create;
  $('signupFirstName').previousElementSibling.textContent=t.firstName;$('signupLastName').previousElementSibling.textContent=t.lastName;
- $('signupPhone').previousElementSibling.textContent=t.phone;$('signupBirthDate').previousElementSibling.textContent=t.birth;
+ $('signupPhone').closest('.wl-phone-row').previousElementSibling.textContent=t.phone;$('birthDay').closest('.wl-birth-row').previousElementSibling.textContent=t.birth;
  $('signupEmail').previousElementSibling.textContent=t.email;$('signupPassword').previousElementSibling.textContent=t.password;
  $('confirmPassword').previousElementSibling.textContent=t.confirm;
- $('signupFirstName').placeholder=t.firstName;$('signupLastName').placeholder=t.lastName;$('signupPhone').placeholder='+964 7XX XXX XXXX';
+ $('signupFirstName').placeholder=t.firstName;$('signupLastName').placeholder=t.lastName;$('signupPhone').placeholder='7XX XXX XXXX';
  $('signupEmail').placeholder=t.email;$('signupPassword').placeholder=t.password;$('confirmPassword').placeholder=t.confirm;
  $('signupBtn').textContent=t.create;$('goLogin').textContent=t.goLogin;
  $('loginPanel').querySelector('.wl-auth-heading').innerHTML=t.welcome+' <span>WORLDLINK</span>';
@@ -246,6 +248,12 @@ function applyLanguage(lang){
  $('loginPanel').querySelector('.wl-auth-subtitle').textContent=t.loginHint;
  $('signupPanel').querySelector('.wl-auth-subtitle').textContent=t.signupHint;
 }
+
+const countryCallingCodes=[["Iraq","IQ","+964"],["Afghanistan","AF","+93"],["Albania","AL","+355"],["Algeria","DZ","+213"],["Andorra","AD","+376"],["Angola","AO","+244"],["Argentina","AR","+54"],["Armenia","AM","+374"],["Australia","AU","+61"],["Austria","AT","+43"],["Azerbaijan","AZ","+994"],["Bahrain","BH","+973"],["Bangladesh","BD","+880"],["Belarus","BY","+375"],["Belgium","BE","+32"],["Brazil","BR","+55"],["Bulgaria","BG","+359"],["Cambodia","KH","+855"],["Cameroon","CM","+237"],["Canada","CA","+1"],["Chile","CL","+56"],["China","CN","+86"],["Colombia","CO","+57"],["Croatia","HR","+385"],["Cyprus","CY","+357"],["Czechia","CZ","+420"],["Denmark","DK","+45"],["Egypt","EG","+20"],["Estonia","EE","+372"],["Ethiopia","ET","+251"],["Finland","FI","+358"],["France","FR","+33"],["Georgia","GE","+995"],["Germany","DE","+49"],["Ghana","GH","+233"],["Greece","GR","+30"],["Hungary","HU","+36"],["India","IN","+91"],["Indonesia","ID","+62"],["Iran","IR","+98"],["Ireland","IE","+353"],["Israel","IL","+972"],["Italy","IT","+39"],["Japan","JP","+81"],["Jordan","JO","+962"],["Kazakhstan","KZ","+7"],["Kenya","KE","+254"],["Kuwait","KW","+965"],["Lebanon","LB","+961"],["Libya","LY","+218"],["Malaysia","MY","+60"],["Maldives","MV","+960"],["Mexico","MX","+52"],["Morocco","MA","+212"],["Nepal","NP","+977"],["Netherlands","NL","+31"],["New Zealand","NZ","+64"],["Nigeria","NG","+234"],["Norway","NO","+47"],["Oman","OM","+968"],["Pakistan","PK","+92"],["Palestine","PS","+970"],["Philippines","PH","+63"],["Poland","PL","+48"],["Portugal","PT","+351"],["Qatar","QA","+974"],["Romania","RO","+40"],["Russia","RU","+7"],["Saudi Arabia","SA","+966"],["Serbia","RS","+381"],["Singapore","SG","+65"],["Somalia","SO","+252"],["South Africa","ZA","+27"],["South Korea","KR","+82"],["Spain","ES","+34"],["Sri Lanka","LK","+94"],["Sudan","SD","+249"],["Sweden","SE","+46"],["Switzerland","CH","+41"],["Syria","SY","+963"],["Taiwan","TW","+886"],["Tanzania","TZ","+255"],["Thailand","TH","+66"],["Tunisia","TN","+216"],["Turkey","TR","+90"],["Ukraine","UA","+380"],["United Arab Emirates","AE","+971"],["United Kingdom","GB","+44"],["United States","US","+1"],["Uzbekistan","UZ","+998"],["Venezuela","VE","+58"],["Vietnam","VN","+84"],["Yemen","YE","+967"],["Zimbabwe","ZW","+263"]];
+const countrySelect=$('signupCountryCode');countryCallingCodes.forEach(([country,iso,code])=>{const option=document.createElement('option');option.value=code;option.textContent=iso+' '+code+' · '+country;if(iso==='IQ')option.selected=true;countrySelect.appendChild(option)});
+const birthDay=$('birthDay'),birthMonth=$('birthMonth'),birthYear=$('birthYear');for(let d=1;d<=31;d++){const o=document.createElement('option');o.value=String(d).padStart(2,'0');o.textContent=d;birthDay.appendChild(o)}for(let m=1;m<=12;m++){const o=document.createElement('option');o.value=String(m).padStart(2,'0');o.textContent=m;birthMonth.appendChild(o)}for(let y=new Date().getFullYear();y>=1900;y--){const o=document.createElement('option');o.value=y;o.textContent=y;birthYear.appendChild(o)}
+function selectedBirthDate(){const d=birthDay.value,m=birthMonth.value,y=birthYear.value;if(!d||!m||!y)return '';const date=new Date(Number(y),Number(m)-1,Number(d));if(date.getFullYear()!==Number(y)||date.getMonth()!==Number(m)-1||date.getDate()!==Number(d))return '';return y+'-'+m+'-'+d}
+
 const savedLang=localStorage.getItem('worldlink_language')||'ku';
 $('languageSelect').value=savedLang;applyLanguage(savedLang);
 $('languageSelect').addEventListener('change',e=>{localStorage.setItem('worldlink_language',e.target.value);applyLanguage(e.target.value)});
@@ -261,11 +269,11 @@ $('composerFeeling').addEventListener('click',()=>showTab('upload'));
 $('storyCreate').addEventListener('click',()=>showTab('upload'));
 $('messageTop').addEventListener('click',()=>showTab('account'));
 $('signupBtn').addEventListener('click',async()=>{
- const firstName=$('signupFirstName').value.trim(),lastName=$('signupLastName').value.trim(),phone=$('signupPhone').value.trim(),email=$('signupEmail').value.trim(),password=$('signupPassword').value,birth=$('signupBirthDate').value;
+ const firstName=$('signupFirstName').value.trim(),lastName=$('signupLastName').value.trim(),localPhone=$('signupPhone').value.trim(),phone=countrySelect.value+localPhone.replace(/^0+/,'').replace(/[\s().-]/g,''),email=$('signupEmail').value.trim(),password=$('signupPassword').value,birth=selectedBirthDate();
  const name=(firstName+' '+lastName).trim();
  if(ageFromDate(birth)<13){message('authMessage','بۆ خۆتۆمارکردن دەبێت لانیکەم ١٣ ساڵت تەواو کردبێت و بەرواری دروست بنووسیت.','err');return}
  if(!firstName||!lastName||!phone||!email||password.length<8){message('authMessage','ناوی یەکەم، ناوی کۆتا، ژمارەی مۆبایل و ئیمەیڵ پڕ بکەرەوە؛ وشەی نهێنی لانیکەم ٨ پیت بێت.','err');return}
- if(!/^\+?[0-9\s().-]{7,20}$/.test(phone)){message('authMessage','ژمارەی مۆبایل بە شێوەی دروست بنووسە، بۆ نموونە +964 7XX XXX XXXX.','err');return}
+ if(!/^\+[0-9]{1,3}[0-9]{6,14}$/.test(phone)){message('authMessage','ژمارەی مۆبایل بە دروستی بنووسە و کۆدی وڵات هەڵبژێرە.','err');return}
  if(password!==$('confirmPassword').value){message('authMessage','وشەی نهێنی و دووبارەکردنەوەکەی یەکسان نین.','err');return}
  $('signupBtn').disabled=true;
  const {data,error}=await client.auth.signUp({email,password,options:{data:{display_name:name,first_name:firstName,last_name:lastName,phone_number:phone,age_13_plus_attested:true},emailRedirectTo:SITE_URL}});
