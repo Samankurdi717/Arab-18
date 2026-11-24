@@ -382,7 +382,8 @@ function updateAuthUI(){
 }
 async function onSession(session){
  currentUser=session&&session.user?session.user:null;updateAuthUI();
- if(currentUser){await loadProfile();await loadPosts();if(!$('peopleSection').hidden)await loadPeople()}
+ if(currentUser){showTab('home');await loadProfile();await loadPosts();if(!$('peopleSection').hidden)await loadPeople()}
+ else{showTab('account')}
 }
 client.auth.onAuthStateChange((event,session)=>{setTimeout(()=>onSession(session),0)});
 client.auth.getSession().then(({data})=>onSession(data.session));
@@ -395,7 +396,7 @@ function runSearch(){
  const found=posts.filter(p=>(p.caption||'').toLowerCase().includes(q)||(p.author.username||'').toLowerCase().includes(q)||(p.author.display_name||'').toLowerCase().includes(q));
  renderPosts(found,target);
 }
-showTab('home');
+showTab('account');
 })();
 </script>
 </body>
