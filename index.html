@@ -166,6 +166,25 @@ main{max-width:680px!important;margin:12px auto!important;padding:0 10px!importa
 .wl-nav button svg{width:29px;height:29px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .wl-nav button.active svg{stroke-width:2.5}
 @media(max-width:520px){.wl-top{gap:clamp(5px,1.8vw,10px)!important;padding-left:8px!important;padding-right:8px!important}.wl-menu{flex:0 0 32px!important;width:32px!important;min-width:32px!important}.wl-menu svg{width:27px;height:27px}.wl-logo{font-size:clamp(18px,5.2vw,24px)!important;letter-spacing:-1.1px!important}.wl-create-top,.wl-messenger{flex:0 0 35px!important;width:35px!important;height:35px!important;min-width:35px!important}.wl-create-top svg,.wl-messenger svg{width:23px;height:23px}.wl-search{flex:0 0 35px!important;width:35px!important;min-width:35px!important;max-width:35px!important;height:35px!important}.wl-search button,.wl-search button svg{width:35px!important;height:35px!important;min-width:35px!important}.wl-nav button svg{width:27px;height:27px}}
+
+/* WORLDLINK private messenger */
+#chatSection{max-width:760px;margin:18px auto;background:#fff;color:#1c1e21;border:1px solid #e4e6eb;border-radius:16px;overflow:hidden;min-height:420px}
+.chat-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #e4e6eb;background:#fff}
+.chat-head strong{flex:1}.chat-action,.chat-back{border:0;border-radius:50%;width:40px;height:40px;background:#e7f3ff;color:#1877f2;font-size:20px;cursor:pointer}
+.chat-back{background:#f0f2f5;color:#333}
+.chat-contacts{padding:10px}.chat-contact{width:100%;display:flex;align-items:center;gap:12px;padding:12px;border:0;border-radius:12px;background:#fff;text-align:right;color:#1c1e21;cursor:pointer}
+.chat-contact:active,.chat-contact:hover{background:#f0f2f5}.chat-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:grid;place-items:center;background:#dbeafe;color:#1877f2;font-weight:800}
+.chat-contact-info{flex:1;min-width:0}.chat-contact-info strong,.chat-contact-info span{display:block}.chat-contact-info span{font-size:12px;color:#65676b;margin-top:4px}
+#chatConversation{display:flex;flex-direction:column;min-height:420px}
+#chatMessages{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:280px;max-height:55vh;overflow-y:auto;background:#f0f2f5}
+.chat-bubble{max-width:82%;padding:10px 13px;border-radius:18px;background:#fff;color:#1c1e21;align-self:flex-start;overflow-wrap:anywhere;white-space:pre-wrap}
+.chat-bubble.mine{align-self:flex-end;background:#1877f2;color:#fff}
+.chat-time{font-size:10px;opacity:.7;margin-top:4px;text-align:left}
+.chat-compose{display:flex;gap:8px;padding:12px;background:#fff;border-top:1px solid #e4e6eb}
+.chat-compose input{flex:1;min-width:0;border:0;border-radius:22px;background:#f0f2f5;padding:12px 15px;outline:none;color:#1c1e21}
+.chat-compose button{border:0;border-radius:22px;padding:0 18px;background:#1877f2;color:#fff;font-weight:700}
+.chat-note{padding:10px 14px;color:#65676b;font-size:12px}
+@media(max-width:520px){#chatSection{margin:10px 0;border-radius:12px}.chat-action,.chat-back{width:36px;height:36px}}
 </style>
 </head>
 <body>
@@ -237,6 +256,23 @@ main{max-width:680px!important;margin:12px auto!important;padding:0 10px!importa
 
  <section id="feedSection"><div class="section-head"><h2>پۆستە نوێکان</h2><span class="muted">دوای چوونەژوورەوە دەردەکەون</span></div><div id="feed" class="grid"><div class="empty">بۆ بینینی پۆستەکان سەرەتا بچۆ ژوورەوە.</div></div></section>
  <section id="peopleSection" hidden><div class="section-head"><h2>ئەندامانی کۆمەڵگا</h2><span class="muted">پڕۆفایل و شوێنکەوتن</span></div><div id="people" class="people-grid"><div class="empty">بۆ بینینی ئەندامان بچۆ ژوورەوە.</div></div></section>
+ <section id="chatSection" hidden>
+  <div id="chatListView">
+   <div class="chat-head"><strong>پەیامەکان</strong><span class="chat-note">چاتی تایبەتی</span></div>
+   <div id="chatContacts" class="chat-contacts"><div class="empty">هاوڕێکان بار دەکرێن...</div></div>
+  </div>
+  <div id="chatConversation" hidden>
+   <div class="chat-head">
+    <button class="chat-back" id="chatBack" aria-label="گەڕانەوە">‹</button>
+    <div class="chat-avatar" id="chatAvatar">W</div><strong id="chatName">هاوڕێ</strong>
+    <button class="chat-action" id="voiceCallBtn" title="پەیوەندی دەنگی" aria-label="پەیوەندی دەنگی">☎</button>
+    <button class="chat-action" id="videoCallBtn" title="ڤیدیۆکال" aria-label="ڤیدیۆکال">▣</button>
+   </div>
+   <div id="chatMessages"><div class="empty">پەیامەکان...</div></div>
+   <form id="chatForm" class="chat-compose"><input id="chatInput" maxlength="5000" autocomplete="off" placeholder="پەیام بنووسە..." required><button type="submit">ناردن</button></form>
+   <div class="chat-note" id="chatStatus">پەیامەکان تایبەتن بە تۆ و ئەو ئەندامە.</div>
+  </div>
+ </section>
  <section id="profileSection" hidden><div class="section-head"><h2>پڕۆفایلی من</h2></div><div class="panel">
   <form id="profileForm"><label class="muted" for="profileName">ناوی پیشاندان</label><input class="field" id="profileName" maxlength="40" required placeholder="ناوی پیشاندان"><label class="muted" for="profileUsername">ناوی بەکارهێنەر (بێ @)</label><input class="field" id="profileUsername" maxlength="24" placeholder="username"><label class="muted" for="profileBio">دەربارەی من</label><textarea class="field" id="profileBio" maxlength="240" rows="3" placeholder="چەند وشەیەک دەربارەی خۆت..."></textarea><label class="muted" for="profileCountry">وڵات</label><input class="field" id="profileCountry" maxlength="40" placeholder="وڵات"><button class="btn" type="submit">پاراستنی پڕۆفایل</button></form><div id="profileMessage" class="status"></div><p class="notice">تکایە زانیارییە تایبەتییەکانت لە پڕۆفایلدا مەنووسە.</p>
  </div></section>
@@ -270,16 +306,18 @@ function escapeText(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;',
 if(!window.supabase){message('authMessage','پەیوەندی Supabase بارنەبوو. تکایە پەڕەکە نوێ بکەرەوە.','err');return}
 const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 let currentUser=null,profile=null,posts=[],people=[],following=new Set();
-const tabs=['account','home','people','profile','upload'];
+const tabs=['account','home','people','profile','upload','chat'];
 function showTab(tab){
  $('feedSection').hidden=tab!=='home';
  $('peopleSection').hidden=tab!=='people';
  $('profileSection').hidden=tab!=='profile';
  $('uploadSection').hidden=tab!=='upload';
+ $('chatSection').hidden=tab!=='chat';
  $('accountSection').hidden=tab!=='account';
  $('searchSection').hidden=true;
  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
  if(tab==='people'&&currentUser)loadPeople();
+ if(tab==='chat'&&currentUser)loadChatContacts();
  if(tab==='profile'&&currentUser)loadProfile();
 }
 document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
@@ -418,6 +456,69 @@ async function deletePost(post){
  if(error){alert('سڕینەوە سەرکەوتوو نەبوو: '+error.message);return}
  await client.storage.from(BUCKET).remove([post.storage_path]);await loadPosts();
 }
+
+let activeChatUser=null,chatRefreshTimer=null;
+async function loadChatContacts(){
+ if(!currentUser)return;
+ $('chatListView').hidden=false;$('chatConversation').hidden=true;
+ $('chatContacts').innerHTML='<div class="empty">ئەندامان بار دەکرێن...</div>';
+ const {data,error}=await client.from('profiles').select('id,username,display_name,country').neq('id',currentUser.id).limit(80);
+ if(error){$('chatContacts').innerHTML='<div class="empty">'+escapeText(error.message)+'</div>';return}
+ const contacts=data||[];$('chatContacts').innerHTML='';
+ if(!contacts.length){$('chatContacts').innerHTML='<div class="empty">هێشتا ئەندامێکی تر نییە.</div>';return}
+ contacts.forEach(person=>{
+  const b=document.createElement('button');b.type='button';b.className='chat-contact';
+  const av=document.createElement('div');av.className='chat-avatar';av.textContent=(person.display_name||'?').charAt(0);
+  const info=document.createElement('div');info.className='chat-contact-info';
+  const name=document.createElement('strong');name.textContent=person.display_name||'ئەندام';
+  const sub=document.createElement('span');sub.textContent='@'+(person.username||'member')+(person.country?' • '+person.country:'');
+  info.append(name,sub);b.append(av,info);b.addEventListener('click',()=>openChat(person));$('chatContacts').appendChild(b);
+ });
+}
+async function openChat(person){
+ activeChatUser=person;showTab('chat');
+ $('chatListView').hidden=true;$('chatConversation').hidden=false;
+ $('chatAvatar').textContent=(person.display_name||'?').charAt(0);
+ $('chatName').textContent=person.display_name||'ئەندام';
+ $('chatMessages').innerHTML='<div class="empty">پەیامەکان بار دەکرێن...</div>';
+ $('chatStatus').textContent='پەیامەکان تایبەتن بە تۆ و ئەو ئەندامە.';
+ await loadChatMessages();
+ if(chatRefreshTimer)clearInterval(chatRefreshTimer);
+ chatRefreshTimer=setInterval(()=>{if(activeChatUser)loadChatMessages()},4000);
+}
+async function loadChatMessages(){
+ if(!currentUser||!activeChatUser)return;
+ const [sent,received]=await Promise.all([
+  client.from('direct_messages').select('id,sender_id,receiver_id,body,created_at').eq('sender_id',currentUser.id).eq('receiver_id',activeChatUser.id).order('created_at',{ascending:true}).limit(150),
+  client.from('direct_messages').select('id,sender_id,receiver_id,body,created_at').eq('sender_id',activeChatUser.id).eq('receiver_id',currentUser.id).order('created_at',{ascending:true}).limit(150)
+ ]);
+ if(sent.error||received.error){$('chatMessages').innerHTML='<div class="empty">'+escapeText((sent.error||received.error).message)+'</div>';return}
+ const rows=[...(sent.data||[]),...(received.data||[])].sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
+ const box=$('chatMessages'),wasNearBottom=box.scrollHeight-box.scrollTop-box.clientHeight<90;
+ box.innerHTML='';
+ if(!rows.length){box.innerHTML='<div class="empty">ئەمە یەکەم پەیامی نێوان ئێوەیە. سڵاوێک بنێرە!</div>';return}
+ rows.forEach(m=>{
+  const bubble=document.createElement('div');bubble.className='chat-bubble'+(m.sender_id===currentUser.id?' mine':'');
+  bubble.textContent=m.body;
+  const time=document.createElement('div');time.className='chat-time';time.textContent=new Date(m.created_at).toLocaleString();
+  bubble.appendChild(time);box.appendChild(bubble);
+ });
+ if(wasNearBottom)box.scrollTop=box.scrollHeight;
+}
+$('chatForm').addEventListener('submit',async e=>{
+ e.preventDefault();if(!currentUser||!activeChatUser)return;
+ const input=$('chatInput'),body=input.value.trim();if(!body)return;
+ const send=e.submitter; if(send)send.disabled=true;
+ const {error}=await client.from('direct_messages').insert({sender_id:currentUser.id,receiver_id:activeChatUser.id,body});
+ if(send)send.disabled=false;
+ if(error){$('chatStatus').textContent='ناردنی پەیام سەرکەوتوو نەبوو: '+error.message;return}
+ input.value='';$('chatStatus').textContent='پەیامەکەت نێردرا.';await loadChatMessages();
+});
+$('chatBack').addEventListener('click',()=>{if(chatRefreshTimer)clearInterval(chatRefreshTimer);activeChatUser=null;$('chatConversation').hidden=true;$('chatListView').hidden=false;loadChatContacts()});
+$('messageTop').addEventListener('click',()=>{if(!currentUser){showTab('account');return}showTab('chat')});
+$('voiceCallBtn').addEventListener('click',()=>{$('chatStatus').textContent='پەیوەندی دەنگی هێشتا چالاک نەکراوە؛ پێویستی بە ڕێکخستنی خزمەتگوزاری پەیوەندی هەیە.'});
+$('videoCallBtn').addEventListener('click',()=>{$('chatStatus').textContent='ڤیدیۆکال هێشتا چالاک نەکراوە؛ پێویستی بە ڕێکخستنی خزمەتگوزاری پەیوەندی هەیە.'});
+
 async function loadPeople(){
  if(!currentUser)return;
  $('people').innerHTML='<div class="empty">ئەندامان بار دەکرێن...</div>';
