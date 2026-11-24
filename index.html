@@ -95,16 +95,6 @@ body.wl-authenticated .wl-header,body.wl-authenticated main,body.wl-authenticate
 </style>
 </head>
 <body>
-<div id="ageGate"><div class="gate">
- <div class="brand">WORLD<b> LINK</b></div>
- <h2>بەخێربێیت بۆ WORLDLINK</h2>
- <p>بۆ بەکارهێنانی WORLDLINK دەبێت لانیکەم ١٣ ساڵت تەواو کردبێت. بەرواری لەدایکبوونت هەڵبژێرە.</p>
- <label class="muted" for="gateBirthDate">بەرواری لەدایکبوون</label>
- <input class="field" id="gateBirthDate" type="date" style="background:#fff;color:#1c1e21">
- <div id="gateMessage" class="status err" aria-live="polite"></div>
- <button class="btn" id="enterBtn">بەردەوامبوون</button>
- <p style="font-size:11px">ئەگەر تەمەنت لە ١٣ ساڵ کەمترە، ناتوانیت هەژمار دروست بکەیت. بەروارەکەت لە سیستەمەکەدا پاشەکەوت ناکرێت.</p>
-</div></div>
 <section id="authLanding" class="wl-auth-landing">
  <div class="wl-auth-brand">
   <svg viewBox="0 0 320 230" role="img" aria-label="WORLDLINK Kurdish flag logo">
@@ -191,7 +181,6 @@ const SUPABASE_PUBLISHABLE_KEY='sb_publishable_0EMYgYxFDOvwYt-hKodtcw_cCGuSdfS';
 const SITE_URL='https://samankurdi717.github.io/Arab-18/';
 const BUCKET='desire-media';
 const $=id=>document.getElementById(id);
-const gate=$('ageGate');
 function ageFromDate(value){
  if(!value)return -1;
  const birth=new Date(value+'T00:00:00'),today=new Date();
@@ -201,12 +190,6 @@ function ageFromDate(value){
  if(month<0||(month===0&&today.getDate()<birth.getDate()))age--;
  return age;
 }
-if(sessionStorage.getItem('worldlink_age13_ok')==='yes')gate.remove();
-$('enterBtn').addEventListener('click',()=>{
- const age=ageFromDate($('gateBirthDate').value);
- if(age<13){$('gateMessage').textContent=age<0?'تکایە بەرواری دروست هەڵبژێرە.':'ببورە، بۆ بەکارهێنانی WORLDLINK دەبێت لانیکەم ١٣ ساڵت هەبێت.';return}
- sessionStorage.setItem('worldlink_age13_ok','yes');gate.remove();
-});
 function message(id,text,type){const el=$(id);el.textContent=text;el.className='status'+(type?' '+type:'')}
 function escapeText(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 if(!window.supabase){message('authMessage','پەیوەندی Supabase بارنەبوو. تکایە پەڕەکە نوێ بکەرەوە.','err');return}
