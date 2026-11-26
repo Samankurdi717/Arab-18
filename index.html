@@ -569,10 +569,8 @@ async function wlCallJoin(row){
  wlAgora.on('user-published',async(user,mediaType)=>{await wlAgora.subscribe(user,mediaType);if(mediaType==='audio')user.audioTrack.play();if(mediaType==='video')user.videoTrack.play('wlRemoteVideo')});
  wlAgora.on('user-unpublished',user=>{if(user.videoTrack)user.videoTrack.stop()});
  await wlAgora.join(tokenData.appId,row.channel,tokenData.token,uid);
- wlLocalTracks=await AgoraRTC.createMicrophoneAndCameraTracks();
- wlLocalTracks[0].play();
- if(row.call_type==='video'){ $('wlCallVideos').hidden=false;wlLocalTracks[1].play('wlLocalVideo');$('wlCallCamera').hidden=false }
- else {wlLocalTracks[1].stop();wlLocalTracks[1].close();wlLocalTracks= [wlLocalTracks[0]];$('wlCallVideos').hidden=true;$('wlCallCamera').hidden=true}
+ if(row.call_type==='video'){wlLocalTracks=await AgoraRTC.createMicrophoneAndCameraTracks();wlLocalTracks[0].play();$('wlCallVideos').hidden=false;wlLocalTracks[1].play('wlLocalVideo');$('wlCallCamera').hidden=false}
+ else {wlLocalTracks=[await AgoraRTC.createMicrophoneAudioTrack()];wlLocalTracks[0].play();$('wlCallVideos').hidden=true;$('wlCallCamera').hidden=true}
  await wlAgora.publish(wlLocalTracks);
  $('wlCallIncomingControls').hidden=true;$('wlCallActiveControls').hidden=false;wlCallStatus(row.call_type==='video'?'ڤیدیۆکال بەسترا':'پەیوەندی دەنگی بەسترا');
 }
@@ -581,7 +579,7 @@ function wlWatchCall(id){
  wlCallSub=client.channel('wl-call-'+id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'worldlink_calls',filter:'id=eq.'+id},payload=>{
   const row=payload.new;if(!wlCall)return;
   wlCall=row;
-  if(row.status==='accepted'&&!wlAgora){wlCallJoin(row).catch(e=>{wlCallStatus('پەیوەندی نەبەسترا: '+e.message);wlCallCleanup()})}
+  if(row.status==='accepted'&&currentUser.id===row.caller_id&&!wlAgora){wlCallJoin(row).catch(e=>{wlCallStatus('پەیوەندی نەبەسترا: '+e.message);wlCallCleanup()})}
   if(['rejected','ended','missed'].includes(row.status)){wlCallStatus(row.status==='rejected'?'پەیوەندی ڕەتکرایەوە':'پەیوەندی کۆتایی هات');setTimeout(wlCallCleanup,700)}
  }).subscribe();
 }
