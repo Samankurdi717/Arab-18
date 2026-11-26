@@ -185,6 +185,21 @@ main{max-width:680px!important;margin:12px auto!important;padding:0 10px!importa
 .chat-compose button{border:0;border-radius:22px;padding:0 18px;background:#1877f2;color:#fff;font-weight:700}
 .chat-note{padding:10px 14px;color:#65676b;font-size:12px}
 @media(max-width:520px){#chatSection{margin:10px 0;border-radius:12px}.chat-action,.chat-back{width:36px;height:36px}}
+
+/* WORLDLINK one-to-one Agora call UI */
+.wl-call-modal{position:fixed;inset:0;z-index:50;background:#0b1020ee;display:flex;align-items:center;justify-content:center;padding:14px}
+.wl-call-card{width:min(100%,560px);background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 16px 60px #0005;color:#172033}
+.wl-call-head{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e5e7eb;font-weight:800}
+.wl-call-status{font-size:13px;font-weight:500;color:#64748b;margin-top:4px}
+.wl-call-videos{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px;background:#111827}
+.wl-call-video{min-height:160px;aspect-ratio:4/3;background:#020617;border-radius:10px;overflow:hidden;position:relative}
+.wl-call-video video{width:100%;height:100%;object-fit:cover}
+.wl-call-video-label{position:absolute;bottom:7px;left:8px;color:#fff;background:#0008;padding:4px 8px;border-radius:8px;font-size:12px;z-index:2}
+.wl-call-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:16px}
+.wl-call-controls button{border:0;border-radius:999px;padding:12px 18px;font-weight:750;background:#1877f2;color:#fff}
+.wl-call-controls .wl-call-danger{background:#dc2626}.wl-call-controls .wl-call-muted{background:#e5e7eb;color:#172033}
+@media(max-width:430px){.wl-call-videos{grid-template-columns:1fr}.wl-call-video{min-height:190px}}
+
 </style>
 </head>
 <body>
@@ -282,7 +297,21 @@ main{max-width:680px!important;margin:12px auto!important;padding:0 10px!importa
  </div></section>
  <section id="searchSection" hidden><div class="section-head"><h2>ئەنجامی گەڕان</h2></div><div id="searchResults" class="grid"></div></section>
 </main>
+
+<div id="worldlinkCallModal" class="wl-call-modal" hidden role="dialog" aria-modal="true" aria-label="WORLDLINK call">
+ <div class="wl-call-card">
+  <div class="wl-call-head"><div><div id="wlCallTitle">WORLDLINK</div><div id="wlCallStatus" class="wl-call-status">Call</div></div><button id="wlCallClose" class="wl-call-controls wl-call-muted" style="padding:8px 12px">×</button></div>
+  <div id="wlCallVideos" class="wl-call-videos" hidden>
+   <div class="wl-call-video" id="wlLocalVideoBox"><div id="wlLocalVideo"></div><span class="wl-call-video-label">تۆ</span></div>
+   <div class="wl-call-video" id="wlRemoteVideoBox"><div id="wlRemoteVideo"></div><span class="wl-call-video-label" id="wlRemoteLabel">هاوڕێ</span></div>
+  </div>
+  <div class="wl-call-controls" id="wlCallIncomingControls" hidden><button id="wlCallAccept">وەڵامدانەوە</button><button id="wlCallReject" class="wl-call-danger">ڕەتکردنەوە</button></div>
+  <div class="wl-call-controls" id="wlCallActiveControls" hidden><button id="wlCallMute" class="wl-call-muted">بێدەنگ</button><button id="wlCallCamera" class="wl-call-muted" hidden>کامێرا</button><button id="wlCallEnd" class="wl-call-danger">کۆتایی پەیوەندی</button></div>
+ </div>
+</div>
+
 <footer>WORLDLINK © 2026 — بۆ کەسانی ١٣ ساڵ و سەرووتر • پاراستن و تایبەتمەندی گرنگن</footer>
+<script src="https://cdn.jsdelivr.net/npm/agora-rtc-sdk-ng@4.24.0/AgoraRTC_N-4.24.0.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
@@ -516,8 +545,82 @@ $('chatForm').addEventListener('submit',async e=>{
 });
 $('chatBack').addEventListener('click',()=>{if(chatRefreshTimer)clearInterval(chatRefreshTimer);activeChatUser=null;$('chatConversation').hidden=true;$('chatListView').hidden=false;loadChatContacts()});
 $('messageTop').addEventListener('click',()=>{if(!currentUser){showTab('account');return}showTab('chat')});
-$('voiceCallBtn').addEventListener('click',()=>{$('chatStatus').textContent='پەیوەندی دەنگی هێشتا چالاک نەکراوە؛ پێویستی بە ڕێکخستنی خزمەتگوزاری پەیوەندی هەیە.'});
-$('videoCallBtn').addEventListener('click',()=>{$('chatStatus').textContent='ڤیدیۆکال هێشتا چالاک نەکراوە؛ پێویستی بە ڕێکخستنی خزمەتگوزاری پەیوەندی هەیە.'});
+
+let wlCall=null,wlAgora=null,wlLocalTracks=[],wlIncomingSub=null,wlCallSub=null,wlCallBusy=false,wlMicMuted=false,wlCameraMuted=false;
+function wlCallStatus(text){$('wlCallStatus').textContent=text;$('chatStatus').textContent=text}
+function wlCallShow(){ $('worldlinkCallModal').hidden=false }
+function wlCallHide(){ $('worldlinkCallModal').hidden=true }
+function wlCallUid(userId){let h=2166136261;for(let i=0;i<userId.length;i++){h^=userId.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0)%2147483646+1}
+function wlCallCleanup(){
+ if(wlCallSub){client.removeChannel(wlCallSub);wlCallSub=null}
+ if(wlAgora){try{wlAgora.removeAllListeners()}catch(_){};wlAgora.leave().catch(()=>{});wlAgora=null}
+ wlLocalTracks.forEach(t=>{try{t.stop();t.close()}catch(_){}});wlLocalTracks=[];
+ $('wlLocalVideo').innerHTML='';$('wlRemoteVideo').innerHTML='';wlCall=null;wlCallBusy=false;wlMicMuted=false;wlCameraMuted=false;
+ $('wlCallVideos').hidden=true;$('wlCallIncomingControls').hidden=true;$('wlCallActiveControls').hidden=true;wlCallHide();
+}
+async function wlCallJoin(row){
+ if(!window.AgoraRTC)throw new Error('Agora SDK بارنەبوو؛ پەڕەکە نوێ بکەرەوە.');
+ const {data:{session}}=await client.auth.getSession();if(!session?.access_token)throw new Error('سەرەتا بچۆ ژوورەوە.');
+ const uid=wlCallUid(currentUser.id);
+ const tokenUrl='https://18-live-world.vercel.app/worldlink-token?channel='+encodeURIComponent(row.channel)+'&uid='+uid;
+ const response=await fetch(tokenUrl,{headers:{Authorization:'Bearer '+session.access_token}});
+ const tokenData=await response.json();if(!response.ok)throw new Error(tokenData.error||'Token API error');
+ wlAgora=AgoraRTC.createClient({mode:'rtc',codec:'vp8'});
+ wlAgora.on('user-published',async(user,mediaType)=>{await wlAgora.subscribe(user,mediaType);if(mediaType==='audio')user.audioTrack.play();if(mediaType==='video')user.videoTrack.play('wlRemoteVideo')});
+ wlAgora.on('user-unpublished',user=>{if(user.videoTrack)user.videoTrack.stop()});
+ await wlAgora.join(tokenData.appId,row.channel,tokenData.token,uid);
+ wlLocalTracks=await AgoraRTC.createMicrophoneAndCameraTracks();
+ wlLocalTracks[0].play();
+ if(row.call_type==='video'){ $('wlCallVideos').hidden=false;wlLocalTracks[1].play('wlLocalVideo');$('wlCallCamera').hidden=false }
+ else {wlLocalTracks[1].stop();wlLocalTracks[1].close();wlLocalTracks= [wlLocalTracks[0]];$('wlCallVideos').hidden=true;$('wlCallCamera').hidden=true}
+ await wlAgora.publish(wlLocalTracks);
+ $('wlCallIncomingControls').hidden=true;$('wlCallActiveControls').hidden=false;wlCallStatus(row.call_type==='video'?'ڤیدیۆکال بەسترا':'پەیوەندی دەنگی بەسترا');
+}
+function wlWatchCall(id){
+ if(wlCallSub)client.removeChannel(wlCallSub);
+ wlCallSub=client.channel('wl-call-'+id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'worldlink_calls',filter:'id=eq.'+id},payload=>{
+  const row=payload.new;if(!wlCall)return;
+  wlCall=row;
+  if(row.status==='accepted'&&!wlAgora){wlCallJoin(row).catch(e=>{wlCallStatus('پەیوەندی نەبەسترا: '+e.message);wlCallCleanup()})}
+  if(['rejected','ended','missed'].includes(row.status)){wlCallStatus(row.status==='rejected'?'پەیوەندی ڕەتکرایەوە':'پەیوەندی کۆتایی هات');setTimeout(wlCallCleanup,700)}
+ }).subscribe();
+}
+async function wlStartCall(type){
+ if(!currentUser||!activeChatUser){$('chatStatus').textContent='تکایە سەرەتا چاتێک بکەرەوە.';return}
+ if(wlCallBusy)return;wlCallBusy=true;
+ try{
+  const channel='wl_'+crypto.randomUUID().replace(/-/g,'');
+  const {data,error}=await client.from('worldlink_calls').insert({caller_id:currentUser.id,callee_id:activeChatUser.id,channel,call_type:type,status:'ringing'}).select().single();
+  if(error)throw error;wlCall=data;wlCallShow();$('wlCallTitle').textContent=activeChatUser.display_name||'ئەندام';wlCallStatus(type==='video'?'داوای ڤیدیۆکال نێردرا...':'داوای پەیوەندی دەنگی نێردرا...');wlWatchCall(data.id);
+  const {data:latest,error:checkError}=await client.from('worldlink_calls').select('*').eq('id',data.id).single();
+  if(!checkError&&latest.status==='accepted')wlCallJoin(latest).catch(e=>{wlCallStatus('پەیوەندی نەبەسترا: '+e.message);wlCallCleanup()});
+ }catch(e){$('chatStatus').textContent='داواکاری پەیوەندی سەرکەوتوو نەبوو: '+(e.message||e)}
+ finally{wlCallBusy=false}
+}
+async function wlIncomingCall(row){
+ if(wlCall||wlCallBusy)return;
+ wlCall=row;wlCallShow();$('wlCallTitle').textContent='پەیوەندی لە ئەندامێک';$('wlCallVideos').hidden=true;$('wlCallIncomingControls').hidden=false;$('wlCallActiveControls').hidden=true;
+ wlCallStatus(row.call_type==='video'?'ڤیدیۆکالێکی هاتوو':'پەیوەندی دەنگی هاتوو');wlWatchCall(row.id);
+}
+async function wlSetupIncoming(){
+ if(!currentUser)return;
+ if(wlIncomingSub)client.removeChannel(wlIncomingSub);
+ wlIncomingSub=client.channel('wl-incoming-'+currentUser.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'worldlink_calls',filter:'callee_id=eq.'+currentUser.id},payload=>wlIncomingCall(payload.new)).subscribe();
+}
+$('voiceCallBtn').addEventListener('click',()=>wlStartCall('voice'));
+$('videoCallBtn').addEventListener('click',()=>wlStartCall('video'));
+$('wlCallAccept').addEventListener('click',async()=>{
+ if(!wlCall)return;const row=wlCall;$('wlCallIncomingControls').hidden=true;wlCallStatus('پەیوەندی دەبەسترێت...');
+ const {error}=await client.from('worldlink_calls').update({status:'accepted',updated_at:new Date().toISOString()}).eq('id',row.id);
+ if(error){wlCallStatus('وەڵامدانەوە سەرکەوتوو نەبوو: '+error.message);return}
+ try{await wlCallJoin({...row,status:'accepted'})}catch(e){wlCallStatus('پەیوەندی نەبەسترا: '+e.message);wlCallCleanup()}
+});
+$('wlCallReject').addEventListener('click',async()=>{if(wlCall)await client.from('worldlink_calls').update({status:'rejected',updated_at:new Date().toISOString()}).eq('id',wlCall.id);wlCallCleanup()});
+async function wlEndCall(){if(wlCall)await client.from('worldlink_calls').update({status:'ended',updated_at:new Date().toISOString()}).eq('id',wlCall.id);wlCallCleanup()}
+$('wlCallEnd').addEventListener('click',wlEndCall);$('wlCallClose').addEventListener('click',()=>{if(wlCall&&wlAgora)wlEndCall();else wlCallHide()});
+$('wlCallMute').addEventListener('click',async()=>{const track=wlLocalTracks[0];if(!track)return;wlMicMuted=!wlMicMuted;await track.setEnabled(!wlMicMuted);$('wlCallMute').textContent=wlMicMuted?'چالاککردنی دەنگ':'بێدەنگ'});
+$('wlCallCamera').addEventListener('click',async()=>{const track=wlLocalTracks[1];if(!track)return;wlCameraMuted=!wlCameraMuted;await track.setEnabled(!wlCameraMuted);$('wlCallCamera').textContent=wlCameraMuted?'چالاککردنی کامێرا':'کامێرا'});
+
 
 async function loadPeople(){
  if(!currentUser)return;
@@ -569,7 +672,7 @@ function updateAuthUI(){
 }
 async function onSession(session){
  currentUser=session&&session.user?session.user:null;updateAuthUI();
- if(currentUser){showTab('home');await loadProfile();await loadPosts();if(!$('peopleSection').hidden)await loadPeople()}
+ if(currentUser){wlSetupIncoming();showTab('home');await loadProfile();await loadPosts();if(!$('peopleSection').hidden)await loadPeople()}
  else{showTab('account')}
 }
 client.auth.onAuthStateChange((event,session)=>{setTimeout(()=>onSession(session),0)});
